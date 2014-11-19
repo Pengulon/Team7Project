@@ -11,37 +11,37 @@
 #include <iostream>
 using namespace std;
 
-template<class ItemType>
+template<class KeyType, class ItemType>
 class BinaryNodeTree
 {
 protected:
-    BinaryNode<ItemType>* rootPtr; // ptr to root node
+    BinaryNode<KeyType, ItemType>* rootPtr; // ptr to root node
     int count; // number of nodes in tree
 
     // returns height of subTreePtr
-    int getHeightHelper(BinaryNode<ItemType>* subTreePtr) const;
+    int getHeightHelper(BinaryNode<KeyType, ItemType>* subTreePtr) const;
 
     // deletes all nodes from the tree
-    void destroyTree(BinaryNode<ItemType>* subTreePtr);
+    void destroyTree(BinaryNode<KeyType, ItemType>* subTreePtr);
 
     // returns a ptr to a copy of the tree rooted at subTreePtr
-    BinaryNode<ItemType>* copyTree(const BinaryNode<ItemType>* treePtr) const;
+    BinaryNode<KeyType, ItemType>* copyTree(const BinaryNode<KeyType, ItemType>* treePtr) const;
 
     // internal traverse
     void preorder(void visit(ItemType&),
-                 BinaryNode<ItemType>* treePtr) const;
+                 BinaryNode<KeyType, ItemType>* treePtr) const;
     void inorder(void visit(ItemType&),
-                 BinaryNode<ItemType>* treePtr) const;
+                 BinaryNode<KeyType, ItemType>* treePtr) const;
     void postorder(void visit(ItemType&),
-                   BinaryNode<ItemType>* treePtr) const;
+                   BinaryNode<KeyType, ItemType>* treePtr) const;
 public:
     //constructors
     BinaryNodeTree();
     BinaryNodeTree(const ItemType& rootItem);
     BinaryNodeTree(const ItemType& rootItem,
-                   const BinaryNodeTree<ItemType>* leftTreePtr,
-                   const BinaryNodeTree<ItemType>* rightTreePtr);
-    BinaryNodeTree(const BinaryNodeTree<ItemType>& tree);
+                   const BinaryNodeTree<KeyType, ItemType>* leftTreePtr,
+                   const BinaryNodeTree<KeyType, ItemType>* rightTreePtr);
+    BinaryNodeTree(const BinaryNodeTree<KeyType, ItemType>& tree);
 
     //destructor
     virtual ~BinaryNodeTree() {clear();}
@@ -74,13 +74,13 @@ public:
 
     void breadthTraversal();
     void printIndented();
-    void printTreeLevelRec(BinaryNode<ItemType>* node, int desired);
+    void printTreeLevelRec(BinaryNode<KeyType, ItemType>* node, int desired);
     void tab(int i);
 };
 
 // Default constructor
 template<class ItemType>
-BinaryNodeTree<ItemType>::BinaryNodeTree()
+BinaryNodeTree<KeyType, ItemType>::BinaryNodeTree()
 {
     rootPtr = 0;
     count = 0;
@@ -88,19 +88,19 @@ BinaryNodeTree<ItemType>::BinaryNodeTree()
 
 // Constructor with item provided
 template<class ItemType>
-BinaryNodeTree<ItemType>::BinaryNodeTree(const ItemType& rootItem)
+BinaryNodeTree<KeyType, ItemType>::BinaryNodeTree(const ItemType& rootItem)
 {
-    rootPtr = new BinaryNodeTree<ItemType>(rootItem, 0, 0);
+    rootPtr = new BinaryNodeTree<KeyType, ItemType>(rootItem, 0, 0);
     count = 1;
 }
 
 // Constructor with item and left and right children provided
 template<class ItemType>
-BinaryNodeTree<ItemType>::BinaryNodeTree(const ItemType& rootItem,
-                          const BinaryNodeTree<ItemType>* leftTreePtr,
-                          const BinaryNodeTree<ItemType>* rightTreePtr)
+BinaryNodeTree<KeyType, ItemType>::BinaryNodeTree(const ItemType& rootItem,
+                          const BinaryNodeTree<KeyType, ItemType>* leftTreePtr,
+                          const BinaryNodeTree<KeyType, ItemType>* rightTreePtr)
 {
-    rootPtr = new BinaryNodeTree<ItemType>(rootItem,
+    rootPtr = new BinaryNodeTree<KeyType, ItemType>(rootItem,
                                            copyTree(leftTreePtr->rootPtr),
                                            copyTree(rightTreePtr->rootPtr));
     count = 1 + leftTreePtr->getCount() + rightTreePtr()->getCount();
@@ -108,8 +108,8 @@ BinaryNodeTree<ItemType>::BinaryNodeTree(const ItemType& rootItem,
 
 // Copy constructor
 template<class ItemType>
-BinaryNodeTree<ItemType>::
-                        BinaryNodeTree(const BinaryNodeTree<ItemType>& treePtr)
+BinaryNodeTree<KeyType, ItemType>::
+                        BinaryNodeTree(const BinaryNodeTree<KeyType, ItemType>& treePtr)
 {
     rootPtr = copyTree(treePtr.rootPtr);
     count = treePtr->getCount();
@@ -117,8 +117,8 @@ BinaryNodeTree<ItemType>::
 
 // destroyTree - deletes all nodes from subTreePtr
 template<class ItemType>
-void BinaryNodeTree<ItemType>::
-     destroyTree(BinaryNode<ItemType>* subTreePtr)
+void BinaryNodeTree<KeyType, ItemType>::
+     destroyTree(BinaryNode<KeyType, ItemType>* subTreePtr)
 {
     if (subTreePtr != 0)
     {
@@ -130,13 +130,13 @@ void BinaryNodeTree<ItemType>::
 
 // copyTree - returns a ptr to a copy of the tree
 template<class ItemType>
-BinaryNode<ItemType>* BinaryNodeTree<ItemType>::
-                          copyTree(const BinaryNode<ItemType>* treePtr) const
+BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
+                          copyTree(const BinaryNode<KeyType, ItemType>* treePtr) const
 {
-    BinaryNodeTree<ItemType>* newTreePtr = 0;
+    BinaryNodeTree<KeyType, ItemType>* newTreePtr = 0;
     if (treePtr != 0)
     {
-        newTreePtr = new BinaryNode<ItemType>(treePtr->getItem(),
+        newTreePtr = new BinaryNode<KeyType, ItemType>(treePtr->getItem(),
                                               0, 0);
         newTreePtr->setLeftChildPtr(copyTree(treePtr->getleftChildPtr()));
         newTreePtr->setRightChildPtr(copyTree(treePtr->getRightChildPtr()));
@@ -146,8 +146,8 @@ BinaryNode<ItemType>* BinaryNodeTree<ItemType>::
 
 // getHeightHelper - returns the height of a tree
 template<class ItemType>
-int BinaryNodeTree<ItemType>::
-    getHeightHelper(BinaryNode<ItemType>* subTreePtr) const
+int BinaryNodeTree<KeyType, ItemType>::
+    getHeightHelper(BinaryNode<KeyType, ItemType>* subTreePtr) const
 {
     if (subTreePtr == 0)
         return 0;
@@ -158,7 +158,7 @@ int BinaryNodeTree<ItemType>::
 
 // recursivePreorderTraverse - calls internal preorder traversal
 template<class ItemType>
-void BinaryNodeTree<ItemType>::
+void BinaryNodeTree<KeyType, ItemType>::
      recursivePreorderTraverse(void visit(ItemType&)) const
 {
     if (rootPtr == 0)
@@ -172,7 +172,7 @@ void BinaryNodeTree<ItemType>::
 
 // recursiveInorderTraverse - calls internal inorder traversal
 template<class ItemType>
-void BinaryNodeTree<ItemType>::
+void BinaryNodeTree<KeyType, ItemType>::
      recursiveInorderTraverse(void visit(ItemType&)) const
 {
     if (rootPtr == 0)
@@ -186,7 +186,7 @@ void BinaryNodeTree<ItemType>::
 
 // recursivePostorderTraverse - calls internal postorder traversal
 template<class ItemType>
-void BinaryNodeTree<ItemType>::
+void BinaryNodeTree<KeyType, ItemType>::
      recursivePostorderTraverse(void visit(ItemType&)) const
 {
     if (rootPtr == 0)
@@ -200,8 +200,8 @@ void BinaryNodeTree<ItemType>::
 
 // recursivePreorderTraverse - prints the item at each node through recursive preorder traversal
 template<class ItemType>
-void BinaryNodeTree<ItemType>::
-     preorder(void visit(ItemType&), BinaryNode<ItemType>* treePtr) const
+void BinaryNodeTree<KeyType, ItemType>::
+     preorder(void visit(ItemType&), BinaryNode<KeyType, ItemType>* treePtr) const
 {
     if (treePtr != 0)
     {
@@ -214,8 +214,8 @@ void BinaryNodeTree<ItemType>::
 
 // recursiveInorderTraverse - prints the item at each node through recursive inorder traversal
 template<class ItemType>
-void BinaryNodeTree<ItemType>::
-     inorder(void visit(ItemType&), BinaryNode<ItemType>* treePtr) const
+void BinaryNodeTree<KeyType, ItemType>::
+     inorder(void visit(ItemType&), BinaryNode<KeyType, ItemType>* treePtr) const
 {
     if (treePtr != 0)
     {
@@ -228,8 +228,8 @@ void BinaryNodeTree<ItemType>::
 
 // recursivePostorderTraverse - prints the item at each node through recursive postorder traversal
 template<class ItemType>
-void BinaryNodeTree<ItemType>::
-     postorder(void visit(ItemType&), BinaryNode<ItemType>* treePtr) const
+void BinaryNodeTree<KeyType, ItemType>::
+     postorder(void visit(ItemType&), BinaryNode<KeyType, ItemType>* treePtr) const
 {
     if (treePtr != 0)
     {
@@ -242,15 +242,15 @@ void BinaryNodeTree<ItemType>::
 
 // iterativePreorderTraverse - prints the item at each node through iterative preorder traversal
 template<class ItemType>
-void BinaryNodeTree<ItemType>::iterativePreorderTraverse(void visit(ItemType&))
+void BinaryNodeTree<KeyType, ItemType>::iterativePreorderTraverse(void visit(ItemType&))
 {
     if (rootPtr == 0)
         cout << "\nTree is empty\n";
 
     cout << "\nPrinting preorder(iteratively): \n";
 
-    Stack<BinaryNode<ItemType>* >* s = new Stack<BinaryNode<ItemType>* >();
-    BinaryNode<ItemType>* node;
+    Stack<BinaryNode<KeyType, ItemType>* >* s = new Stack<BinaryNode<KeyType, ItemType>* >();
+    BinaryNode<KeyType, ItemType>* node;
     s->push(rootPtr);
 
     while(s->getCount() > 0)
@@ -267,15 +267,15 @@ void BinaryNodeTree<ItemType>::iterativePreorderTraverse(void visit(ItemType&))
 
 // iterativeInorderTraverse - prints the item at each node through iterative inorder traversal
 template<class ItemType>
-void BinaryNodeTree<ItemType>::iterativeInorderTraverse(void visit(ItemType&))
+void BinaryNodeTree<KeyType, ItemType>::iterativeInorderTraverse(void visit(ItemType&))
 {
     if (rootPtr == 0)
         cout << "\nTree is empty\n";
 
     cout << "\nPrinting inorder(iteratively): \n";
 
-    Stack<BinaryNode<ItemType>* >* s = new Stack<BinaryNode<ItemType>* >();
-    BinaryNode<ItemType>* node = rootPtr;
+    Stack<BinaryNode<KeyType, ItemType>* >* s = new Stack<BinaryNode<KeyType, ItemType>* >();
+    BinaryNode<KeyType, ItemType>* node = rootPtr;
 
     while(s->getCount() > 0 || node!= 0)
     {
@@ -297,19 +297,19 @@ void BinaryNodeTree<ItemType>::iterativeInorderTraverse(void visit(ItemType&))
 
 // iterativePostorderTraverse - prints the item at each node through iterative postorder traversal
 template<class ItemType>
-void BinaryNodeTree<ItemType>::iterativePostorderTraverse(void visit(ItemType&))
+void BinaryNodeTree<KeyType, ItemType>::iterativePostorderTraverse(void visit(ItemType&))
 {
     if (rootPtr == 0)
         cout << "\nTree is empty\n";
 
     cout << "\nPrinting postorder(iteratively): \n";
 
-    Stack<BinaryNode<ItemType>* >* s = new Stack<BinaryNode<ItemType>* >();
+    Stack<BinaryNode<KeyType, ItemType>* >* s = new Stack<BinaryNode<KeyType, ItemType>* >();
     s->push(rootPtr);
 
-    BinaryNode<ItemType>* popVal;
-    BinaryNode<ItemType>* temp;
-    BinaryNode<ItemType>* prev = 0;
+    BinaryNode<KeyType, ItemType>* popVal;
+    BinaryNode<KeyType, ItemType>* temp;
+    BinaryNode<KeyType, ItemType>* prev = 0;
     ItemType theItem;
 
     while(s->getCount() > 0)
@@ -352,11 +352,11 @@ void BinaryNodeTree<ItemType>::iterativePostorderTraverse(void visit(ItemType&))
 
 // breadthTraversal - prints the item at each node by level
 template<class ItemType>
-void BinaryNodeTree<ItemType>::breadthTraversal()
+void BinaryNodeTree<KeyType, ItemType>::breadthTraversal()
 {
-    Queue<BinaryNode<ItemType>* >* q = new Queue<BinaryNode<ItemType>* >();
+    Queue<BinaryNode<KeyType, ItemType>* >* q = new Queue<BinaryNode<KeyType, ItemType>* >();
 
-    BinaryNode<ItemType>* node;
+    BinaryNode<KeyType, ItemType>* node;
     if(rootPtr == 0)
         cout << "\nTree is empty\n";
 
@@ -379,7 +379,7 @@ void BinaryNodeTree<ItemType>::breadthTraversal()
 
 // printIndented - calls internal function 'printTreeLevelRec' to print an indented list
 template<class ItemType>
-void BinaryNodeTree<ItemType>::printIndented()
+void BinaryNodeTree<KeyType, ItemType>::printIndented()
 {
     if (rootPtr == 0)
         return;
@@ -390,7 +390,7 @@ void BinaryNodeTree<ItemType>::printIndented()
 
 // printTreeLevelRec - recursive call to print an indented list of the items at each node with its corresponding level
 template<class ItemType>
-void BinaryNodeTree<ItemType>::printTreeLevelRec(BinaryNode<ItemType>* node, int desired)
+void BinaryNodeTree<KeyType, ItemType>::printTreeLevelRec(BinaryNode<KeyType, ItemType>* node, int desired)
 {
     if(node == 0)
         return;
@@ -402,7 +402,7 @@ void BinaryNodeTree<ItemType>::printTreeLevelRec(BinaryNode<ItemType>* node, int
 
 //tab - displays tab
 template<class ItemType>
-void BinaryNodeTree<ItemType>::tab(int i)
+void BinaryNodeTree<KeyType, ItemType>::tab(int i)
 {
     while(i>0)
     {

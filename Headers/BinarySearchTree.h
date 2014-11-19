@@ -9,63 +9,66 @@
 #include <iostream>
 using namespace std;
 
-template<class ItemType>
-class BinarySearchTree : public BinaryNodeTree<ItemType>
+template<class KeyType, class ItemType>
+class BinarySearchTree : public BinaryNodeTree<class KeyType, class ItemType>
 {
 private:
-    using BinaryNodeTree<ItemType>::rootPtr; //declaration of base class field
-    using BinaryNodeTree<ItemType>::count; //declaration of base class field
+    using BinaryNodeTree<KeyType, ItemType>::rootPtr; //declaration of base class field
+    using BinaryNodeTree<KeyType, ItemType>::count; //declaration of base class field
 protected:
     // returns ptr to a tree with correctly inserted node
-    BinaryNode<ItemType>* insertInorder(BinaryNode<ItemType>* subTreePtr,
-                                        BinaryNode<ItemType>* newNode);
+    BinaryNode<KeyType, ItemType>* insertInorder(BinaryNode<KeyType, ItemType>* subTreePtr,
+                                        BinaryNode<KeyType, ItemType>* newNode);
     // prints the item in each node greater than key
-    void _printItemsGreater(BinaryNode<ItemType>* subTreePtr, ItemType& key);
+    void _printItemsGreater(BinaryNode<KeyType, ItemType>* subTreePtr, ItemType& key);
 public:
     // insert a node with item field at the correct location
     bool add(const ItemType& newData);
 
     // insert a node at with both item and key fields at the correct location
-    bool add(const ItemType& item, const ItemType& key);
+    bool add(const KeyType& key, const ItemType& item);
 
-	// find a target node
-	bool getEntry(const ItemType& target, ItemType& returnedItem) const;
+	// find a key node
+	bool getEntry(const KeyType& key, ItemType& returnedItem) const;
 
 	// calls internal function '_printItemsGreater'
 	void printItemsGreater(ItemType key);
 
-	// searches for target and displays success of the search
-    void search(const ItemType& target);
+	// searches for key and displays success of the search
+    void search(const KeyType& key);
 };
 
-// search - searches for target and displays item if found
+// search - searches for key and displays item if found
 template<class ItemType>
-void BinarySearchTree<ItemType>::search(const ItemType& target)
+void BinarySearchTree<KeyType, ItemType>::search(const ItemType& key)
 {
     ItemType returnedItem;
 
-    cout << "\nSearching for " << target << endl;
-    if (getEntry(target, returnedItem))
-        cout << "Found: " << returnedItem << endl;
+    cout << "\nSearching for \" " << key << " \" " << endl;
+    if (getEntry(key, returnedItem))
+        cout << "Found: " << returnedItem->getTitle() << endl;
+        cout << "Year: " << returnedItem->getYear() << endl;
+        cout << "Genre: " << returnedItem->getGenre() << endl;
+        cout << "Rating: " << returnedItem->getRating() << endl;
     else
-        cout << target << " not found\n";
+        cout << " \" " << key << " \" was not found\n";
 }
 
-// getEntry - returns true if target is found in the tree, false otherwise
+// getEntry - returns true if key is found in the tree, false otherwise
 template<class ItemType>
-bool BinarySearchTree<ItemType>::getEntry(const ItemType& target, ItemType& returnedItem) const
+bool BinarySearchTree<KeyType, ItemType>::getEntry(const ItemType& key, ItemType& returnedItem) const
 {
     if (rootPtr == 0)
         return false;
 
-    BinaryNode<ItemType>* pWalk = rootPtr;
+    BinaryNode<KeyType, ItemType>* pWalk = rootPtr;
 
     while( pWalk )
     {
-        if( target < pWalk->getUniqueKey())
+        if( key < pWalk->getUniqueKey())
             pWalk = pWalk->getLeftChildPtr();
         else
-            if( target > pWalk->getUniqueKey())
+            if( key > pWalk->getUniqueKey())
                 pWalk = pWalk->getRightChildPtr();
             else
             {
@@ -78,9 +81,9 @@ bool BinarySearchTree<ItemType>::getEntry(const ItemType& target, ItemType& retu
 
 // add - insert a node at with item field at the correct location
 template<class ItemType>
-bool BinarySearchTree<ItemType>::add(const ItemType& newData)
+bool BinarySearchTree<KeyType, ItemType>::add(const ItemType& newData)
 {
-    BinaryNode<ItemType>* newNodePtr = new BinaryNode<ItemType>(newData);
+    BinaryNode<KeyType, ItemType>* newNodePtr = new BinaryNode<KeyType, ItemType>(newData);
     rootPtr = insertInorder(rootPtr, newNodePtr);
     count++;
 
@@ -89,9 +92,9 @@ bool BinarySearchTree<ItemType>::add(const ItemType& newData)
 
 // add - insert a node at with both item and key fields at the correct location
 template<class ItemType>
-bool BinarySearchTree<ItemType>::add(const ItemType& item, const ItemType& key)
+bool BinarySearchTree<KeyType, ItemType>::add(const KeyType& key, const ItemType& item)
 {
-    BinaryNode<ItemType>* newNodePtr = new BinaryNode<ItemType>(item, key);
+    BinaryNode<KeyType, ItemType>* newNodePtr = new BinaryNode<KeyType, ItemType>(item, key);
     rootPtr = insertInorder(rootPtr, newNodePtr);
     count++;
 
@@ -100,19 +103,19 @@ bool BinarySearchTree<ItemType>::add(const ItemType& item, const ItemType& key)
 
 // insertInorder - returns ptr to a tree with correctly inserted node
 template<class ItemType>
-BinaryNode<ItemType>* BinarySearchTree<ItemType>::insertInorder(BinaryNode<ItemType>* subTreePtr,
-                                        BinaryNode<ItemType>* newNode)
+BinaryNode<KeyType, ItemType>* BinarySearchTree<KeyType, ItemType>::insertInorder(BinaryNode<KeyType, ItemType>* subTreePtr,
+                                        BinaryNode<KeyType, ItemType>* newNode)
 {
     if (subTreePtr == 0)
         return newNode;
     else if (subTreePtr->getItem() > newNode->getItem())
     {
-        BinaryNode<ItemType>* tempPtr = insertInorder(subTreePtr->getLeftChildPtr(), newNode);
+        BinaryNode<KeyType, ItemType>* tempPtr = insertInorder(subTreePtr->getLeftChildPtr(), newNode);
         subTreePtr->setLeftChildPtr(tempPtr);
     }
     else
     {
-        BinaryNode<ItemType>* tempPtr = insertInorder(subTreePtr->getRightChildPtr(), newNode);
+        BinaryNode<KeyType, ItemType>* tempPtr = insertInorder(subTreePtr->getRightChildPtr(), newNode);
         subTreePtr->setRightChildPtr(tempPtr);
     }
     return subTreePtr;
@@ -120,7 +123,7 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::insertInorder(BinaryNode<ItemT
 
 // printItemsGreater - calls internal function '_printItemsGreater'
 template<class ItemType>
-void BinarySearchTree<ItemType>::printItemsGreater(ItemType key)
+void BinarySearchTree<KeyType, ItemType>::printItemsGreater(ItemType key)
 {
     cout << "\nPrinting items greater than " << key << "\n";
     _printItemsGreater(rootPtr, key);
@@ -128,7 +131,7 @@ void BinarySearchTree<ItemType>::printItemsGreater(ItemType key)
 
 // _printItemsGreater - prints the item in each node greater than key
 template<class ItemType>
-void BinarySearchTree<ItemType>::_printItemsGreater(BinaryNode<ItemType>* subTreePtr, ItemType& key)
+void BinarySearchTree<KeyType, ItemType>::_printItemsGreater(BinaryNode<KeyType, ItemType>* subTreePtr, ItemType& key)
 {
     if (subTreePtr == 0)
         return;
