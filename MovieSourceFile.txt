@@ -1,0 +1,27 @@
+Titanic 2012 Drama 9.0
+Iron Man 3 2013 Action 7.3
+Avengers 2012 Action 8.2
+Aladdin 1992 Animation 8.0
+Men in Black 3 2012 Action 6.9
+Anastasia 1997 Animation 7.1
+The Little Mermaid 1989 Animation 7.6
+The Lion King 1994 Animation 8.5
+Apollo 13 1995 Adventure 7.6
+Twilight 2008 Adventure 5.2
+Breaking Dawn 2012 Adventure 5.6
+New Moon 2009 Adventure 4.6
+Bedtime Stories 2008 Comedy 6.1
+Dracula Untold 2014 Action 6.2
+Dumbo 1941 Animation 7.3
+Snow White and the Seven Dwarfs 1937 Animation 7.7
+The Jungle Book 1994 Adventure 7.6
+Tarzan 1999 Animation 7.2
+Ratatouille 2007 Animation 8.0
+Despicable Me 2010 Animation 7.7
+Frozen 2013 Animation 7.8
+Spirited Away 2001 Animation 8.6
+Up 2009 Animation 8.3
+Django Unchained 2012 Western 8.5
+Holes 2003 Adventure 7.1
+Toy Story 1995 Animation 8.3
+
