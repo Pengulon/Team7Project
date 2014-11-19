@@ -5,10 +5,19 @@
 
 using namespace std;
 
+struct Data
+{
+	string title;
+	int year;
+	string genre;
+	double rating;
+}
+
 class BinaryTree
 {
 	struct BinaryNode
 	{
+		Data data;
 		BinaryNode* left;
 		BinaryNode* right;
 		string[] hashArray;
