@@ -27,6 +27,19 @@ protected:
     // returns a ptr to a copy of the tree rooted at subTreePtr
     BinaryNode<KeyType, ItemType>* copyTree(const BinaryNode<KeyType, ItemType>* treePtr) const;
 
+    // removes the given node with given key if found
+    BinaryNode<KeyType, ItemType>* removeValue(BinaryNode<KeyType,
+                                               ItemType>* treePtr,
+                                               KeyType key, bool &success);
+
+    // removes leftmost node in rootPtr's right subtree
+    BinaryNode<KeyType, ItemType>* removeLeftMostNode(BinaryNode<KeyType, ItemType>* nodePtr,
+                                                  KeyType &inorderKeySuccessor ,
+                                                  ItemType &inorderItemSuccessor );
+
+    // removeNode -
+    BinaryNode<KeyType, ItemType>* removeNode(BinaryNode<KeyType, ItemType>* nodePtr);
+
     // internal traverse
     void preorder(void visit(ItemType&),
                  BinaryNode<KeyType, ItemType>* treePtr) const;
@@ -55,12 +68,16 @@ public:
     void setRootData(const ItemType& data) {rootPtr->setItem(data);}
 
     // abstract functions to be implemented by derived class
+    /*
 	virtual bool add(const ItemType & newData) = 0;
 	virtual bool getEntry(const ItemType & anEntry, ItemType & returnedItem) const = 0;
     virtual void printItemsGreater(ItemType key) = 0;
-    virtual void search(const ItemType& target) = 0;
+    virtual void search(const ItemType& target) = 0;*/
 
     // common functions for all binary trees
+    bool remove (KeyType key) {bool success = false;
+                               rootPtr = removeValue(rootPtr, key, success);
+                               return success;}
     void clear() {destroyTree(rootPtr); count = 0;}
     bool isEmpty() const {return count == 0;}
 
@@ -79,7 +96,7 @@ public:
 };
 
 // Default constructor
-template<class ItemType>
+template<class KeyType, class ItemType>
 BinaryNodeTree<KeyType, ItemType>::BinaryNodeTree()
 {
     rootPtr = 0;
@@ -87,7 +104,7 @@ BinaryNodeTree<KeyType, ItemType>::BinaryNodeTree()
 }
 
 // Constructor with item provided
-template<class ItemType>
+template<class KeyType, class ItemType>
 BinaryNodeTree<KeyType, ItemType>::BinaryNodeTree(const ItemType& rootItem)
 {
     rootPtr = new BinaryNodeTree<KeyType, ItemType>(rootItem, 0, 0);
@@ -95,7 +112,7 @@ BinaryNodeTree<KeyType, ItemType>::BinaryNodeTree(const ItemType& rootItem)
 }
 
 // Constructor with item and left and right children provided
-template<class ItemType>
+template<class KeyType, class ItemType>
 BinaryNodeTree<KeyType, ItemType>::BinaryNodeTree(const ItemType& rootItem,
                           const BinaryNodeTree<KeyType, ItemType>* leftTreePtr,
                           const BinaryNodeTree<KeyType, ItemType>* rightTreePtr)
@@ -107,7 +124,7 @@ BinaryNodeTree<KeyType, ItemType>::BinaryNodeTree(const ItemType& rootItem,
 }
 
 // Copy constructor
-template<class ItemType>
+template<class KeyType, class ItemType>
 BinaryNodeTree<KeyType, ItemType>::
                         BinaryNodeTree(const BinaryNodeTree<KeyType, ItemType>& treePtr)
 {
@@ -116,7 +133,7 @@ BinaryNodeTree<KeyType, ItemType>::
 }
 
 // destroyTree - deletes all nodes from subTreePtr
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::
      destroyTree(BinaryNode<KeyType, ItemType>* subTreePtr)
 {
@@ -129,7 +146,7 @@ void BinaryNodeTree<KeyType, ItemType>::
 }
 
 // copyTree - returns a ptr to a copy of the tree
-template<class ItemType>
+template<class KeyType, class ItemType>
 BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
                           copyTree(const BinaryNode<KeyType, ItemType>* treePtr) const
 {
@@ -145,7 +162,7 @@ BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
 }
 
 // getHeightHelper - returns the height of a tree
-template<class ItemType>
+template<class KeyType, class ItemType>
 int BinaryNodeTree<KeyType, ItemType>::
     getHeightHelper(BinaryNode<KeyType, ItemType>* subTreePtr) const
 {
@@ -157,7 +174,7 @@ int BinaryNodeTree<KeyType, ItemType>::
 }
 
 // recursivePreorderTraverse - calls internal preorder traversal
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::
      recursivePreorderTraverse(void visit(ItemType&)) const
 {
@@ -171,7 +188,7 @@ void BinaryNodeTree<KeyType, ItemType>::
 }
 
 // recursiveInorderTraverse - calls internal inorder traversal
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::
      recursiveInorderTraverse(void visit(ItemType&)) const
 {
@@ -185,7 +202,7 @@ void BinaryNodeTree<KeyType, ItemType>::
 }
 
 // recursivePostorderTraverse - calls internal postorder traversal
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::
      recursivePostorderTraverse(void visit(ItemType&)) const
 {
@@ -199,7 +216,7 @@ void BinaryNodeTree<KeyType, ItemType>::
 }
 
 // recursivePreorderTraverse - prints the item at each node through recursive preorder traversal
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::
      preorder(void visit(ItemType&), BinaryNode<KeyType, ItemType>* treePtr) const
 {
@@ -213,7 +230,7 @@ void BinaryNodeTree<KeyType, ItemType>::
 }
 
 // recursiveInorderTraverse - prints the item at each node through recursive inorder traversal
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::
      inorder(void visit(ItemType&), BinaryNode<KeyType, ItemType>* treePtr) const
 {
@@ -227,7 +244,7 @@ void BinaryNodeTree<KeyType, ItemType>::
 }
 
 // recursivePostorderTraverse - prints the item at each node through recursive postorder traversal
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::
      postorder(void visit(ItemType&), BinaryNode<KeyType, ItemType>* treePtr) const
 {
@@ -241,7 +258,7 @@ void BinaryNodeTree<KeyType, ItemType>::
 }
 
 // iterativePreorderTraverse - prints the item at each node through iterative preorder traversal
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::iterativePreorderTraverse(void visit(ItemType&))
 {
     if (rootPtr == 0)
@@ -266,7 +283,7 @@ void BinaryNodeTree<KeyType, ItemType>::iterativePreorderTraverse(void visit(Ite
 }
 
 // iterativeInorderTraverse - prints the item at each node through iterative inorder traversal
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::iterativeInorderTraverse(void visit(ItemType&))
 {
     if (rootPtr == 0)
@@ -296,7 +313,7 @@ void BinaryNodeTree<KeyType, ItemType>::iterativeInorderTraverse(void visit(Item
 }
 
 // iterativePostorderTraverse - prints the item at each node through iterative postorder traversal
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::iterativePostorderTraverse(void visit(ItemType&))
 {
     if (rootPtr == 0)
@@ -351,7 +368,7 @@ void BinaryNodeTree<KeyType, ItemType>::iterativePostorderTraverse(void visit(It
 }
 
 // breadthTraversal - prints the item at each node by level
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::breadthTraversal()
 {
     Queue<BinaryNode<KeyType, ItemType>* >* q = new Queue<BinaryNode<KeyType, ItemType>* >();
@@ -367,7 +384,7 @@ void BinaryNodeTree<KeyType, ItemType>::breadthTraversal()
     while(!q->isEmpty())
     {
         q->dequeue(node);
-        cout << node->getItem() << endl;
+        cout << (node->getItem())->getTitle() << endl;
         if (node->getLeftChildPtr() != 0)
             q->enqueue(node->getLeftChildPtr());
         if (node->getRightChildPtr() != 0)
@@ -378,7 +395,7 @@ void BinaryNodeTree<KeyType, ItemType>::breadthTraversal()
 }
 
 // printIndented - calls internal function 'printTreeLevelRec' to print an indented list
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::printIndented()
 {
     if (rootPtr == 0)
@@ -389,19 +406,19 @@ void BinaryNodeTree<KeyType, ItemType>::printIndented()
 }
 
 // printTreeLevelRec - recursive call to print an indented list of the items at each node with its corresponding level
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::printTreeLevelRec(BinaryNode<KeyType, ItemType>* node, int desired)
 {
     if(node == 0)
         return;
     tab(desired-1);
-    cout << desired << ".  " << node->getItem() << "\n";
+    cout << desired << ".  " << (node->getItem())->getTitle() << "\n";
     printTreeLevelRec(node->getRightChildPtr(), desired+1);
     printTreeLevelRec(node->getLeftChildPtr(), desired+1);
 }
 
 //tab - displays tab
-template<class ItemType>
+template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::tab(int i)
 {
     while(i>0)
@@ -410,6 +427,94 @@ void BinaryNodeTree<KeyType, ItemType>::tab(int i)
         i--;
     }
 }
+//removeValue -
+template<class KeyType, class ItemType>
+BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
+                    removeValue(BinaryNode<KeyType,ItemType>* treePtr, KeyType key, bool &success)
+{
+    if (treePtr == NULL)
+    {
+        success = false;
+        return NULL;
+    }
+    else if (treePtr->getKey() == key)
+    {
+        treePtr = removeNode(treePtr);
+        success = true;
+        return treePtr;
+    }
+    else if (treePtr->getKey() > key)
+    {
+        treePtr = removeValue(treePtr->getLeftChildPtr(), key, success);
+        treePtr->setLeftChildPtr(treePtr);
+        return treePtr;
+    }
+    else
+    {
+        BinaryNode<KeyType, ItemType>* tempPtr = removeValue(treePtr->getRightChildPtr(),
+                                                             key, success);
+        treePtr->setRightChildPtr(tempPtr);
+        return treePtr;
+    }
+}
+
+// removeNode -
+template<class KeyType, class ItemType>
+BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
+                    removeNode(BinaryNode<KeyType, ItemType>* nodePtr)
+{
+    if (nodePtr->isLeaf())
+    {
+        delete nodePtr;
+        nodePtr = NULL;
+        return nodePtr;
+    }
+    // 1 child
+    else if (nodePtr->getLeftChildPtr() != NULL && nodePtr->getRightChildPtr() == NULL ||
+             nodePtr->getRightChildPtr() != NULL && nodePtr->getLeftChildPtr() == NULL)
+    {
+        if (nodePtr->getLeftChildPtr() != NULL)
+            BinaryNode<KeyType, ItemType>* nodeToConnectPtr = nodePtr->getLeftChildPtr();
+        else
+        {
+            BinaryNode<KeyType, ItemType>* nodeToConnectPtr = nodePtr->getRightChildPtr();
+            delete nodePtr;
+            nodePtr = NULL;
+            return nodeToConnectPtr;
+        }
+    }
+    // 2 children
+    else
+    {
+        KeyType newKeyValue;
+        ItemType newItemValue;
+        BinaryNode<KeyType, ItemType>* tempPtr = removeLeftMostNode(nodePtr->getRightChildPtr(),
+                                                                    newKeyValue, newItemValue);
+        nodePtr->setRightChildPtr(tempPtr);
+        nodePtr->setKey(newKeyValue);
+        nodePtr->setItem(newItemValue);
+        return nodePtr;
+    }
+}
+
+// removeLeftmostNode -
+template<class KeyType, class ItemType>
+BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
+                    removeLeftMostNode(BinaryNode<KeyType, ItemType>* nodePtr,
+                                       KeyType &inorderKeySuccessor,
+                                       ItemType &inorderItemSuccessor)
+{
+    if (nodePtr->getLeftChildPtr() == NULL)
+    {
+        inorderKeySuccessor = nodePtr->getKey();
+        inorderItemSuccessor = nodePtr->getItem();
+        return removeNode(nodePtr);
+    }
+    else
+        return removeLeftMostNode(nodePtr->getLeftChildPtr(), inorderKeySuccessor,
+                                  inorderItemSuccessor);
+}
+
 
 #endif // BINARYNODETREE_H_INCLUDED
 
