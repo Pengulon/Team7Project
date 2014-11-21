@@ -1,6 +1,6 @@
 Team1Project
 ============
-Use main in headers folder.
+Use main in headers folder. It should be working. You can test the insert, remove, etc. menu options.
 
 Things that still need to be done:
 
