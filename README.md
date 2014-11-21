@@ -4,7 +4,7 @@ Use main in headers folder.
 
 Things that still need to be done:
 
-1. File i/o menu option
+1. File i/o (read from file, insert data to hash and bst, write data to file)
 
 2. Input validation for all user inputs
 
