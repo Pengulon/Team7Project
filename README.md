@@ -1,6 +1,6 @@
 Team1Project
 ============
-Use main in headers folder. It should be working. The hash and bst are empty right now, but you can test the insert, remove, etc. menu options.
+Use main in headers folder. It should be working. The hash table and bst are empty right now, but you can still test the insert, remove, etc. menu options with your own input.
 
 Things that still need to be done:
 
