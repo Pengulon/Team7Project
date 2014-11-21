@@ -30,7 +30,7 @@ public:
     void insert(KeyType key, ItemType item);
     void printTable();
     void displayList();
-    void search(KeyType key);
+    bool search(KeyType key, ItemType &foundItem);
     void stats();
     void remove(KeyType key, ItemType &deletedItem);
 };
@@ -149,12 +149,10 @@ void HashMap<KeyType, ItemType>::displayList()
 
 // search - searches for an item by its key value, return item if found
 template <class KeyType, class ItemType>
-void HashMap<KeyType, ItemType>::search(KeyType key)
+bool HashMap<KeyType, ItemType>::search(KeyType key, ItemType &foundItem)
 {
-    cout << "\nSearching for \"" << key << "\" " << endl;
     int index = hashFunc(key);
     bool found = false;
-    ItemType item;
 
     HashEntry<KeyType, ItemType>* curr = htable[index];
     while(curr != NULL)
@@ -162,21 +160,12 @@ void HashMap<KeyType, ItemType>::search(KeyType key)
         if (curr->getKey() == key)
         {
             found = true;
-            item = curr->getItem();
+            foundItem = curr->getItem();
         }
         curr = curr->getNext();
     }
-    if (found)
-    {
-        cout << "Found: " << item->getTitle() << endl;
-        cout << "Year: " << item->getYear() << endl;
-        cout << "Genre: " << item->getGenre() << endl;
-        cout << "Rating: " << item->getRating() << endl;
-    }
-    else
-    {
-        cout << "\"" << key << "\" was not found\n";
-    }
+
+    return found;
 }
 
 // getNumCollisions - returns number of collisions in hash table

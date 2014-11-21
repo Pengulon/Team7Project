@@ -75,9 +75,7 @@ public:
     virtual void search(const ItemType& target) = 0;*/
 
     // common functions for all binary trees
-    bool remove (KeyType key) {bool success = false;
-                               rootPtr = removeValue(rootPtr, key, success);
-                               return success;}
+    void remove (KeyType key);
     void clear() {destroyTree(rootPtr); count = 0;}
     bool isEmpty() const {return count == 0;}
 
@@ -262,7 +260,10 @@ template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::iterativePreorderTraverse(void visit(ItemType&))
 {
     if (rootPtr == 0)
+    {
         cout << "\nTree is empty\n";
+        return;
+    }
 
     cout << "\nPrinting preorder(iteratively): \n";
 
@@ -287,7 +288,10 @@ template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::iterativeInorderTraverse(void visit(ItemType&))
 {
     if (rootPtr == 0)
+    {
         cout << "\nTree is empty\n";
+        return;
+    }
 
     cout << "\nPrinting inorder(iteratively): \n";
 
@@ -317,7 +321,10 @@ template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::iterativePostorderTraverse(void visit(ItemType&))
 {
     if (rootPtr == 0)
+    {
         cout << "\nTree is empty\n";
+        return;
+    }
 
     cout << "\nPrinting postorder(iteratively): \n";
 
@@ -515,6 +522,17 @@ BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
                                   inorderItemSuccessor);
 }
 
+// remove -
+template<class KeyType, class ItemType>
+void BinaryNodeTree<KeyType, ItemType>::remove (KeyType key)
+{
+    bool success = false;
+    rootPtr = removeValue(rootPtr, key, success);
+    if (success)
+        cout << "\"" << key << "\" was removed from the BST\n";
+    else
+        cout << "\"" << key << "\" was not found in the BST\n";
+}
 
 #endif // BINARYNODETREE_H_INCLUDED
 
