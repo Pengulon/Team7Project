@@ -6,7 +6,6 @@
 #include "Movie.h"
 #include "Stack.h"
 #include <iostream>
-#include <limits>
 #include <string>
 #include <algorithm>
 #include <stdlib.h>
@@ -77,17 +76,34 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     }
 
     cout << "Enter movie year:\n";
-    cin.ignore();
-    cin >> year;
+    while (1)
+    {
+        if (cin >> year)
+            break;
+        else
+        {
+            cout << "Invalid input. Please enter a integer value.\n";
+            cin.clear();
+            while(cin.get() != '\n');
+        }
+    }
 
     cout << "Enter movie rating:\n";
-    cin.ignore();
-    cin >> rating;
+    while (1)
+    {
+        if (cin >> rating)
+            break;
+        else
+        {
+            cout << "Invalid input. Please enter a numerical value.\n";
+            cin.clear();
+            while(cin.get() != '\n');
+        }
+    }
 
     cout << "Enter movie genre:\n";
     cin.ignore();
     getline(cin, genre);
-    //cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 
     Movie* newItem = new Movie(title, year, genre, rating);
     h->insert(title, newItem);
