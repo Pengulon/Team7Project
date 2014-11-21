@@ -1,6 +1,6 @@
 Team1Project
 ============
-Use main in header folder.
+Use main in headers folder.
 
 Things that still need to be done:
 
