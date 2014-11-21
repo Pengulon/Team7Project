@@ -77,9 +77,13 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     }
 
     cout << "Enter movie year:\n";
+    cin.ignore();
     cin >> year;
+
     cout << "Enter movie rating:\n";
+    cin.ignore();
     cin >> rating;
+
     cout << "Enter movie genre:\n";
     cin.ignore();
     getline(cin, genre);
