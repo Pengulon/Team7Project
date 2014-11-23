@@ -4,6 +4,10 @@
 #ifndef MOVIE_H_INCLUDED
 #define MOVIE_H_INCLUDED
 
+#include <string>
+
+using namespace std;
+
 class Movie
 {
 private:
