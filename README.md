@@ -4,7 +4,7 @@ Use main in headers folder. It should be working. The hash table and bst are emp
 
 Things that still need to be done:
 
-1. File i/o (read from file, insert data to hash and bst, write data to file)
+1. File i/o (read from file, insert data to hash and bst, write data to file) <- finished, read my desc
 
 2. Input validation for all user inputs
 
