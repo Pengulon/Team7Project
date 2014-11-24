@@ -8,7 +8,6 @@
 #include "Stack.h"
 #include <iostream>
 #include <string>
-#include <algorithm>
 #include <stdlib.h>
 #include <cctype>
 using namespace std;
@@ -134,7 +133,6 @@ void removeItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
         bst->remove(key);
         s->push(deletedItem);
     }
-
 }
 
 // runDatabase - displays menu options for Movie Database application
@@ -187,8 +185,7 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 		else if(input == "P")
             h->printTable();
 		else if(input == "N")
-			bst->recursiveInorderTraverse(display);
-			//bst->printIndented();
+            bst->recursiveInorderTraverse(display);
 		else if(input == "T")
             h->stats();
 		else if(input == "M")
