@@ -293,7 +293,7 @@ void HashMap<KeyType, ItemType>::remove(KeyType key, ItemType &deletedItem)
     }
 
     // case 2 - match in 1st bucket item, but more bucket items exist
-    else if (htable[index]->getItem() == NULL)
+    else if (htable[index]->getKey() == key)
     {
         deletedItem = htable[index]->getItem();
         ptrToDelete = htable[index];
@@ -318,6 +318,7 @@ void HashMap<KeyType, ItemType>::remove(KeyType key, ItemType &deletedItem)
         // case 3.2 - match found
         else
         {
+            deletedItem = p1->getItem();
             ptrToDelete = p1;
             p1 = p1->getNext();
             p2->setNext(p1);
