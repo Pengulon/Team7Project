@@ -1,29 +1,28 @@
 #ifndef FILE_IO
 #define FILE_IO
-
 #include <fstream>
 #include <string>
 #include "Movie.h"
 #include "BinarySearchTree.h"
 #include "HashMap.h"
-
+#define ARRAY_SIZE 128
 using namespace std;
 
-const string fileName = "..\MovieSourceFile.txt";
+const string fileName = "MovieSourceFile.txt";
 
 class FileIO
 {
 private:
+    Movie* moviePtrArray[ARRAY_SIZE];
 	fstream File;
 	bool available;
 	int count;
-	bool readInArray(Movie* movie[]);
+	bool readInArray(Movie* (&moviePtrArray) [ARRAY_SIZE]);
 
 public:
 	FileIO();
 	~FileIO();
-	bool readInData(BinarySearchTree<string,HashMap<string,Movie*>> bst);
-	bool writeOutData(BinarySearchTree<string,HashMap<string,Movie*>> bst);
+	bool readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst);
 
 	int getCount() {return count;}
 	bool isAvailable() {return available;}
@@ -31,7 +30,7 @@ public:
 
 FileIO::FileIO()
 {
-	File.open(fileName);
+	File.open(fileName.c_str());
 	count = 0;
 	if(File.is_open())
 	{
@@ -47,50 +46,28 @@ FileIO::FileIO()
 
 FileIO::~FileIO()
 {
+    for (int i = 0; i < count; i++)
+        delete moviePtrArray[i];
 	if(File.is_open())
 		File.close();
 }
 
-bool FileIO::readInData(BinarySearchTree<string,HashMap<string,Movie*>> bst)
+bool FileIO::readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst)
 {
-	Movie* movie[128];
-	readInArray(movie);
+	readInArray(moviePtrArray);
 	for(int i = 0; i < count; i++)
 	{
-		HashMap<string,Movie*> hMap;
-		if(bst.getEntry(movie[i]->getGenre(), hMap))
-			hMap.insert(movie[i]->getTitle(),movie[i]);
+		h->insert(moviePtrArray[i]->getTitle(), moviePtrArray[i]);
+		bst->add(moviePtrArray[i]->getTitle(), moviePtrArray[i]);
 	}
 }
 
-bool FileIO::writeOutData(BinarySearchTree<string,HashMap<string,Movie*>> bst)
+bool FileIO::readInArray(Movie* (&moviePtrArray) [ARRAY_SIZE])
 {
-	Movie* movie[128];
-	int num;
-	// while loop to get all entries in the tree into
-	// movie array and to get # of entries
-	if(available)
-	{
-		File.open(fileName);
-		for(int i = 0; i < num; i++)
-		{
-			File << movie[i]->getYear()
-				<< movie[i]->getGenre()
-				<< movie[i]->getRating()
-				<< movie[i]->getTitle()
-				<< "\n";
-		}
-		File.close();
-	}		
-}
-
-bool FileIO::readInArray(Movie* movie[])
-{
-	if(available)
+    if(available)
 	{
 		int index = 0;
-		Movie* movie[128];
-		File.open(fileName);
+		File.open(fileName.c_str());
 		while(!File.eof())
 		{
 			Movie* temp = new Movie();
@@ -103,14 +80,10 @@ bool FileIO::readInArray(Movie* movie[])
 			File.ignore(128, ' ');
 			getline(File, title);
 
-			temp->setYear(year);
-			temp->setGenre(genre);
-			temp->setRating(rating);
-			temp->setTitle(title);
-			movie[index] = temp;
+			moviePtrArray[index] = new Movie(title, year, genre, rating);
 			index++;
 		}
-		count += index + 1;
+		count += index;
 		File.close();
 		return true;
 	}

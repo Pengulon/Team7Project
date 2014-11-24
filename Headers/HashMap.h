@@ -5,6 +5,7 @@
 #define HASHMAP_H_INCLUDED
 #include "HashEntry.h"
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 template<class KeyType, class ItemType>
@@ -33,6 +34,7 @@ public:
     bool search(KeyType key, ItemType &foundItem);
     void stats();
     void remove(KeyType key, ItemType &deletedItem);
+    bool writeToFile();
 };
 
 // Default constructor
@@ -42,6 +44,7 @@ HashMap<KeyType, ItemType>::HashMap()
     for (int i = 0; i < TABLE_SIZE; i++)
         htable[i] = new HashEntry<KeyType, ItemType>();
 }
+
 
 // Destructor
 template <class KeyType, class ItemType>
@@ -56,8 +59,8 @@ HashMap<KeyType, ItemType>::~HashMap()
             entry = entry->getNext();
             delete prev;
         }
-        delete [] htable;
     }
+    delete [] htable;
 }
 
 //hashFunc - takes the key, sums the ascii value of each character
@@ -323,4 +326,50 @@ void HashMap<KeyType, ItemType>::remove(KeyType key, ItemType &deletedItem)
         }
     }
 }
+// writeToFile -
+template <class KeyType, class ItemType>
+bool HashMap<KeyType, ItemType>::writeToFile()
+{
+   	ofstream outFile("output.txt");
+    int i = 0;
+    HashEntry<KeyType, ItemType>* curr;
+
+    while (i < TABLE_SIZE)
+    {
+        if (htable[i]->getItem())
+        {
+            outFile << (htable[i]->getItem())->getYear();
+            outFile << " ";
+            outFile << (htable[i]->getItem())->getGenre();
+            outFile << " ";
+            outFile << (htable[i]->getItem())->getRating();
+            outFile << " ";
+            outFile << (htable[i]->getItem())->getTitle();
+            outFile << endl;
+        }
+
+        if (htable[i]->getNext())
+        {
+            curr = htable[i]->getNext();
+            while (curr)
+            {
+                outFile << (curr->getItem())->getYear();
+                outFile << " ";
+                outFile << (curr->getItem())->getGenre();
+                outFile << " ";
+                outFile << (curr->getItem())->getRating();
+                outFile << " ";
+                outFile << (curr->getItem())->getTitle();
+                outFile << endl;
+                curr = curr->getNext();
+            }
+        }
+        i++;
+    }
+    outFile.close();
+
+    cout << "Save successful\n";
+    return true;
+}
+
 #endif // HASHMAP_H_INCLUDED

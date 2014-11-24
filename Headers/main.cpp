@@ -1,6 +1,7 @@
 // Brandon Chai, 2014
 // main test driver for movie database program
 
+#include "FileIO.h"
 #include "BinarySearchTree.h"
 #include "HashMap.h"
 #include "Movie.h"
@@ -31,7 +32,7 @@ void showMenu()
     cout << "N - Print sorted list(inorder bst traverse)\n";
     cout << "T - Show hash statistics\n";
     cout << "M - Show Menu\n";
-    //cout << "O - Write data to file\n";
+    cout << "O - Write data to file\n";
     cout << "Q - Quit\n\n";
 }
 
@@ -77,31 +78,9 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     }
 
     cout << "Enter movie year:\n";
-    while (1)
-    {
-        if (cin >> year)
-            break;
-        else
-        {
-            cout << "Invalid input. Please enter a integer value.\n";
-            cin.clear();
-            while(cin.get() != '\n');
-        }
-    }
-
+    cin >> year;
     cout << "Enter movie rating:\n";
-    while (1)
-    {
-        if (cin >> rating)
-            break;
-        else
-        {
-            cout << "Invalid input. Please enter a numerical value.\n";
-            cin.clear();
-            while(cin.get() != '\n');
-        }
-    }
-
+    cin >> rating;
     cout << "Enter movie genre:\n";
     cin.ignore();
     getline(cin, genre);
@@ -117,7 +96,9 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
 void removeItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bst, Stack<Movie*>* s)
 {
     Movie* foundItem;
+    Movie* deletedItem;
     string key;
+
     cout << "Enter key of item to be deleted:\n";
     cin.ignore();
     getline(cin, key);
@@ -128,93 +109,30 @@ void removeItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
         return;
     }
 
-    Movie* deletedItem;
     h->remove(key, deletedItem);
     bst->remove(key);
     s->push(deletedItem);
 }
 
 // runDatabase - displays menu options for Movie Database application
-void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bst, Stack<Movie*>* s)
+void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bst, Stack<Movie*>* s, FileIO* f)
 {
     cout << "Movie Database Program\n";
     cout << "--------------------------";
     showMenu();
-	
-    /*char input;
-    cin >> input;
 
-    while (input != 'Q' && input != 'q')
-    {
-        switch(input)
-        {
-        case 'I':
-        case 'i':
-            {
-                insertItem(h, bst);
-                break;
-            }
-        case 'R':
-        case 'r':
-            {
-                removeItem(h, bst, s);
-                break;
-            }
-        case 'U':
-        case 'u':
-            {
-                Movie* deletedItem;
-                s->pop(deletedItem);
-                h->insert(deletedItem->getTitle(), deletedItem);
-                bst->add(deletedItem->getTitle(), deletedItem);
-                cout << "Undo remove successful\n";
-                break;
-            }
-        case 'S':
-        case 's':
-            {
-                searchKey(h);
-                break;
-            }
-        case 'D':
-        case 'd':
-            h->displayList();
-            break;
-        case 'P':
-        case 'p':
-            h->printTable();
-            break;
-        case 'N':
-        case 'n':
-            bst->iterativeInorderTraverse(display);
-            break;
-        case 'T':
-        case 't':
-            h->stats();
-            break;
-        case 'M':
-        case 'm':
-            showMenu();
-            break;
-        case 'Q':
-        case 'q':
-            break;
-		default:
-			cout << "Invalid Entry." << endl;
-        }
-
-        cout << endl;
-        cin >> input;
-    }*/
-
-	bool isvalid = false;
+    bool isvalid = false;
 	string input;
+
 	while(isvalid == false)
 	{
 		getline(cin,input);
+
 		for(int x = 0; x<input.length();x++)
 			input[x] = toupper(input[x]);
+
 		cout << input << endl;
+
 		if(input == "Q")
 			isvalid = true;
 		else if(input == "I")
@@ -224,10 +142,11 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 		else if(input == "U")
 		{
 			Movie* deletedItem;
-				s->pop(deletedItem);
-                h->insert(deletedItem->getTitle(), deletedItem);
-                bst->add(deletedItem->getTitle(), deletedItem);
-                cout << "Undo remove successful\n";
+
+            s->pop(deletedItem);
+            h->insert(deletedItem->getTitle(), deletedItem);
+            bst->add(deletedItem->getTitle(), deletedItem);
+            cout << "Undo remove successful\n";
 		}
 		else if(input == "S")
 			searchKey(h);
@@ -241,14 +160,10 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 			 h->stats();
 		else if(input == "M")
 			showMenu();
-		else 
+		else
 			cout << "Invalid Entry." << endl;
 	}
-
-
-
-
-
+	cout << "\nQuitting...\n";
 }
 
 int main()
@@ -256,12 +171,15 @@ int main()
    Stack<Movie*>* s = new Stack<Movie*>();
    BinarySearchTree<string, Movie*>* bst = new BinarySearchTree<string, Movie*>();
    HashMap<string, Movie*>* h = new HashMap<string, Movie*>();
+   FileIO* f = new FileIO();
 
-   runDatabase(h, bst, s);
+   f->readInData(h, bst);
+   runDatabase(h, bst, s, f);
 
    delete s;
    delete bst;
    delete h;
+   delete f;
 
    return 0;
 }
