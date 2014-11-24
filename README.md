@@ -6,6 +6,6 @@ Use main in headers folder. Everything looks to be working right now.
 
 Things that still need to be done:
 
-1. Test cases
+1. Test cases (test everything, look for bugs)
 2. Documentation
 3. Move team report 1 and 2 to new catalyst forum  
