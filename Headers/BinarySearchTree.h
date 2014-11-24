@@ -110,7 +110,7 @@ BinaryNode<KeyType, ItemType>* BinarySearchTree<KeyType, ItemType>::insertInorde
 {
     if (subTreePtr == 0)
         return newNode;
-    else if (subTreePtr->getItem() > newNode->getItem())
+    else if (subTreePtr->getKey() > newNode->getKey())
     {
         BinaryNode<KeyType, ItemType>* tempPtr = insertInorder(subTreePtr->getLeftChildPtr(), newNode);
         subTreePtr->setLeftChildPtr(tempPtr);

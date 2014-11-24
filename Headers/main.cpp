@@ -42,7 +42,6 @@ void searchKey(HashMap<string, Movie*>* h)
     Movie* foundItem;
     string key;
     cout << "\nEnter key\n";
-    cin.ignore();
     getline(cin, key);
     cout << "\nSearching for \"" << key << "\" " << endl;
 
@@ -68,7 +67,6 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     double rating;
 
     cout << "Enter movie title:\n";
-    cin.ignore();
     getline(cin, title);
 
     if (h->search(title, foundItem))
@@ -78,9 +76,31 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     }
 
     cout << "Enter movie year:\n";
-    cin >> year;
+    while (1)
+    {
+        if (cin >> year)
+            break;
+        else
+        {
+            cout << "Invalid input. Please enter a integer value.\n";
+            cin.clear();
+            while(cin.get() != '\n');
+        }
+    }
+
     cout << "Enter movie rating:\n";
-    cin >> rating;
+    while (1)
+    {
+        if (cin >> rating)
+            break;
+        else
+        {
+            cout << "Invalid input. Please enter a numerical value.\n";
+            cin.clear();
+            while(cin.get() != '\n');
+        }
+    }
+
     cout << "Enter movie genre:\n";
     cin.ignore();
     getline(cin, genre);
@@ -126,6 +146,7 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 
 	while(isvalid == false)
 	{
+	    cout << endl;
 		getline(cin,input);
 
 		for(int x = 0; x<input.length();x++)
@@ -134,7 +155,10 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 		cout << input << endl;
 
 		if(input == "Q")
-			isvalid = true;
+        {
+            h->writeToFile();
+            isvalid = true;
+		}
 		else if(input == "I")
 			insertItem(h, bst);
 		else if(input == "R")
@@ -151,15 +175,17 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 		else if(input == "S")
 			searchKey(h);
 		else if(input == "D")
-			 h->displayList();
+            h->displayList();
 		else if(input == "P")
-			 h->printTable();
+            h->printTable();
 		else if(input == "N")
-			bst->iterativeInorderTraverse(display);
+			bst->recursiveInorderTraverse(display);
 		else if(input == "T")
-			 h->stats();
+            h->stats();
 		else if(input == "M")
 			showMenu();
+        else if(input == "O")
+			h->writeToFile();
 		else
 			cout << "Invalid Entry." << endl;
 	}
