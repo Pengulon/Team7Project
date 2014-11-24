@@ -9,6 +9,7 @@
 #include <string>
 #include <algorithm>
 #include <stdlib.h>
+#include <cctype>
 using namespace std;
 
 // display - display function to pass to BST traverse functions
@@ -139,8 +140,8 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
     cout << "Movie Database Program\n";
     cout << "--------------------------";
     showMenu();
-
-    char input;
+	
+    /*char input;
     cin >> input;
 
     while (input != 'Q' && input != 'q')
@@ -198,11 +199,56 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
         case 'Q':
         case 'q':
             break;
+		default:
+			cout << "Invalid Entry." << endl;
         }
 
         cout << endl;
         cin >> input;
-    }
+    }*/
+
+	bool isvalid = false;
+	string input;
+	while(isvalid == false)
+	{
+		getline(cin,input);
+		for(int x = 0; x<input.length();x++)
+			input[x] = toupper(input[x]);
+		cout << input << endl;
+		if(input == "Q")
+			isvalid = true;
+		else if(input == "I")
+			insertItem(h, bst);
+		else if(input == "R")
+			removeItem(h, bst, s);
+		else if(input == "U")
+		{
+			Movie* deletedItem;
+				s->pop(deletedItem);
+                h->insert(deletedItem->getTitle(), deletedItem);
+                bst->add(deletedItem->getTitle(), deletedItem);
+                cout << "Undo remove successful\n";
+		}
+		else if(input == "S")
+			searchKey(h);
+		else if(input == "D")
+			 h->displayList();
+		else if(input == "P")
+			 h->printTable();
+		else if(input == "N")
+			bst->iterativeInorderTraverse(display);
+		else if(input == "T")
+			 h->stats();
+		else if(input == "M")
+			showMenu();
+		else 
+			cout << "Invalid Entry." << endl;
+	}
+
+
+
+
+
 }
 
 int main()
