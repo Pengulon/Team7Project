@@ -152,8 +152,6 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 		for(int x = 0; x<input.length();x++)
 			input[x] = toupper(input[x]);
 
-		cout << input << endl;
-
 		if(input == "Q")
         {
             h->writeToFile();

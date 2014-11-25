@@ -22,7 +22,7 @@ private:
 public:
 	FileIO();
 	~FileIO();
-	bool readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst);
+	void readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst);
 
 	int getCount() {return count;}
 	bool isAvailable() {return available;}
@@ -30,17 +30,18 @@ public:
 
 FileIO::FileIO()
 {
-	File.open(fileName.c_str());
+	File.open("MovieSourceFile.txt");
 	count = 0;
-	if(File.is_open())
-	{
-		available = true;
-		File.close();
-	}
-	else
+	if(!File)
 	{
 		available = false;
 		cout << "File Not Found.\n";
+		
+	}
+	else
+	{
+		available = true;
+		File.close();
 	}
 }
 
@@ -52,7 +53,7 @@ FileIO::~FileIO()
 		File.close();
 }
 
-bool FileIO::readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst)
+void FileIO::readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst)
 {
 	readInArray(moviePtrArray);
 	for(int i = 0; i < count; i++)
@@ -79,10 +80,11 @@ bool FileIO::readInArray(Movie* (&moviePtrArray) [ARRAY_SIZE])
 			File >> year >> genre >> rating;
 			File.ignore(128, ' ');
 			getline(File, title);
-
 			moviePtrArray[index] = new Movie(title, year, genre, rating);
 			index++;
 		}
+		for(int x = 0; x < index; x++)
+			cout << moviePtrArray[x] << endl;
 		count += index;
 		File.close();
 		return true;
