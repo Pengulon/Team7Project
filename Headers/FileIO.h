@@ -36,7 +36,7 @@ FileIO::FileIO()
 	{
 		available = false;
 		cout << "File Not Found.\n";
-		
+
 	}
 	else
 	{
@@ -83,10 +83,13 @@ bool FileIO::readInArray(Movie* (&moviePtrArray) [ARRAY_SIZE])
 			moviePtrArray[index] = new Movie(title, year, genre, rating);
 			index++;
 		}
-		for(int x = 0; x < index; x++)
-			cout << moviePtrArray[x] << endl;
-		count += index;
+
+		//for(int x = 0; x < index; x++)
+		//	cout << moviePtrArray[x]->getTitle() << endl;
+
+		count = index;
 		File.close();
+
 		return true;
 	}
 	return false;

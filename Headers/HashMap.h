@@ -12,7 +12,7 @@ template<class KeyType, class ItemType>
 class HashMap
 {
 private:
-    static const int TABLE_SIZE = 10;
+    static const int TABLE_SIZE = 53;
     HashEntry<KeyType, ItemType>* htable [TABLE_SIZE];
 
     // internal functions
@@ -28,6 +28,7 @@ public:
     ~HashMap();
 
     // Public user functions
+    void setTABLE_SIZE(int size) {TABLE_SIZE = size;}
     void insert(KeyType key, ItemType item);
     void printTable();
     void displayList();
@@ -289,7 +290,7 @@ void HashMap<KeyType, ItemType>::remove(KeyType key, ItemType &deletedItem)
         deletedItem = htable[index]->getItem();
         htable[index]->setItem(NULL);
         htable[index]->setKey("");
-        cout << "\"" << key << "\" was removed from the Hash Table\n";
+        //cout << "\"" << key << "\" was removed from the Hash Table\n";
     }
 
     // case 2 - match in 1st bucket item, but more bucket items exist
@@ -299,7 +300,7 @@ void HashMap<KeyType, ItemType>::remove(KeyType key, ItemType &deletedItem)
         ptrToDelete = htable[index];
         htable[index] = htable[index]->getNext();
         delete ptrToDelete;
-        cout << "\"" << key << "\" was removed from the Hash Table\n";
+        //cout << "\"" << key << "\" was removed from the Hash Table\n";
     }
     // case 3 - bucket contains items but first item is not match
     else
@@ -323,7 +324,7 @@ void HashMap<KeyType, ItemType>::remove(KeyType key, ItemType &deletedItem)
             p1 = p1->getNext();
             p2->setNext(p1);
             delete ptrToDelete;
-            cout << "\"" << key << "\" was removed from the Hash Table\n";
+            //cout << "\"" << key << "\" was removed from the Hash Table\n";
         }
     }
 }

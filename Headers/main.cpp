@@ -21,17 +21,18 @@ void display(Movie* &movie)
 // showMenu - displays menu for Database program
 void showMenu()
 {
-    cout << "\nMenu" << endl;
+    cout << "\nMenu\n";
     cout << "I - Insert item\n";
     cout << "R - Remove item\n";
     cout << "U - Undo remove item\n";
     cout << "S - Search by a unique key (movie title)\n";
-    cout << "D - Display hash list\n";
-    cout << "P - Print the hashed table(indented)\n";
-    cout << "N - Print sorted list(inorder bst traverse)\n";
+    cout << "H - Display hash list\n";
+    cout << "N - Print the hashed table(indented)\n";
+    cout << "P - Print sorted list\n";
+    cout << "B - Print indented tree\n";
     cout << "T - Show hash statistics\n";
     cout << "M - Show Menu\n";
-    cout << "O - Write data to file\n";
+    cout << "O - Save data to file\n";
     cout << "Q - Quit\n\n";
 }
 
@@ -132,6 +133,7 @@ void removeItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
         h->remove(key, deletedItem);
         bst->remove(key);
         s->push(deletedItem);
+        cout << "\nSuccessfully removed " << "\"" << key << "\"\n";
     }
 }
 
@@ -174,22 +176,28 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
             }
             else
                 cout << "Nothing to undo\n";
-
 		}
 		else if(input == "S")
 			searchKey(h);
-		else if(input == "D")
+		else if(input == "H")
             h->displayList();
-		else if(input == "P")
-            h->printTable();
 		else if(input == "N")
+            h->printTable();
+		else if(input == "P")
             bst->recursiveInorderTraverse(display);
+        else if(input == "B")
+            bst->printIndented();
 		else if(input == "T")
             h->stats();
 		else if(input == "M")
 			showMenu();
         else if(input == "O")
-			h->writeToFile();
+        {
+            Movie* deletedItem;
+            h->writeToFile();
+			while(s->pop(deletedItem))
+                s->pop(deletedItem);
+        }
 		else
 			cout << "Invalid Entry." << endl;
 	}

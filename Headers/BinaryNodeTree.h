@@ -194,7 +194,7 @@ void BinaryNodeTree<KeyType, ItemType>::
         cout << "\nThe tree is empty\n";
     else
     {
-        cout << "\nPrinting inorder(recursively):"<< endl;
+        //cout << "\nPrinting inorder(recursively):"<< endl;
         inorder(visit, rootPtr);
     }
 }
@@ -534,10 +534,10 @@ void BinaryNodeTree<KeyType, ItemType>::remove (KeyType key)
 {
     bool success = false;
     rootPtr = removeValue(rootPtr, key, success);
-    if (success)
+    /*if (success)
         cout << "\"" << key << "\" was removed from the BST\n";
     else
-        cout << "\"" << key << "\" was not found in the BST\n";
+        cout << "\"" << key << "\" was not found in the BST\n";*/
 }
 
 #endif // BINARYNODETREE_H_INCLUDED
