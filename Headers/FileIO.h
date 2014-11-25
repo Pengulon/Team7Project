@@ -36,7 +36,6 @@ FileIO::FileIO()
 	{
 		available = false;
 		cout << "File Not Found.\n";
-
 	}
 	else
 	{

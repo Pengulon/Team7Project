@@ -28,7 +28,6 @@ public:
     ~HashMap();
 
     // Public user functions
-    void setTABLE_SIZE(int size) {TABLE_SIZE = size;}
     void insert(KeyType key, ItemType item);
     void printTable();
     void displayList();
