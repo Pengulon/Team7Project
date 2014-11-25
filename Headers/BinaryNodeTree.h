@@ -452,8 +452,9 @@ BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
     }
     else if (treePtr->getKey() > key)
     {
-        treePtr = removeValue(treePtr->getLeftChildPtr(), key, success);
-        treePtr->setLeftChildPtr(treePtr);
+        BinaryNode<KeyType, ItemType>* tempPtr = removeValue(treePtr->getLeftChildPtr(),
+                                                             key, success);
+        treePtr->setLeftChildPtr(tempPtr);
         return treePtr;
     }
     else
@@ -481,7 +482,12 @@ BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
              nodePtr->getRightChildPtr() != NULL && nodePtr->getLeftChildPtr() == NULL)
     {
         if (nodePtr->getLeftChildPtr() != NULL)
+        {
             BinaryNode<KeyType, ItemType>* nodeToConnectPtr = nodePtr->getLeftChildPtr();
+            delete nodePtr;
+            nodePtr = NULL;
+            return nodeToConnectPtr;
+        }
         else
         {
             BinaryNode<KeyType, ItemType>* nodeToConnectPtr = nodePtr->getRightChildPtr();

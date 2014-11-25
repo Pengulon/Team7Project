@@ -8,7 +8,6 @@
 #include "Stack.h"
 #include <iostream>
 #include <string>
-#include <algorithm>
 #include <stdlib.h>
 #include <cctype>
 using namespace std;
@@ -120,7 +119,6 @@ void removeItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     string key;
 
     cout << "Enter key of item to be deleted:\n";
-    cin.ignore();
     getline(cin, key);
 
     if (!h->search(key, foundItem))
@@ -129,9 +127,12 @@ void removeItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
         return;
     }
 
-    h->remove(key, deletedItem);
-    bst->remove(key);
-    s->push(deletedItem);
+    else
+    {
+        h->remove(key, deletedItem);
+        bst->remove(key);
+        s->push(deletedItem);
+    }
 }
 
 // runDatabase - displays menu options for Movie Database application
@@ -165,10 +166,15 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 		{
 			Movie* deletedItem;
 
-            s->pop(deletedItem);
-            h->insert(deletedItem->getTitle(), deletedItem);
-            bst->add(deletedItem->getTitle(), deletedItem);
-            cout << "Undo remove successful\n";
+            if (s->pop(deletedItem))
+            {
+                h->insert(deletedItem->getTitle(), deletedItem);
+                bst->add(deletedItem->getTitle(), deletedItem);
+                cout << "Undo remove successful\n";
+            }
+            else
+                cout << "Nothing to undo\n";
+
 		}
 		else if(input == "S")
 			searchKey(h);
@@ -177,7 +183,7 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 		else if(input == "P")
             h->printTable();
 		else if(input == "N")
-			bst->recursiveInorderTraverse(display);
+            bst->recursiveInorderTraverse(display);
 		else if(input == "T")
             h->stats();
 		else if(input == "M")
