@@ -7,7 +7,9 @@ Use main in headers folder. Everything looks to be working right now.
 Things that still need to be done:
 
 1. Test cases (test everything, look for bugs)
+
 2. Better hash function?
+
 3. Powerpoint presentation
 
    a. Data Structure Design
@@ -17,4 +19,5 @@ Things that still need to be done:
    c. Structure Charts
    
 4. Documentation
+
 5. Move team report 1 and 2 to new catalyst forum  
