@@ -3,6 +3,7 @@ Team1Project
 //update 11/26:
 
 FIXED bst remove bug. 
+
 FIXED num collisions bug.
 
 Things that still need to be done:
