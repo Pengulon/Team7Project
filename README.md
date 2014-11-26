@@ -2,7 +2,7 @@ Team1Project
 ============
 //update 11/25:
 
-Use main in headers folder. Everything looks to be working right now.
+FIXED bst remove bug. 
 
 Things that still need to be done:
 
