@@ -181,8 +181,11 @@ int HashMap<KeyType, ItemType>::getNumCollisions()
     {
         curr = htable[i];
 
-        if (curr->getNext())
+        while (curr->getNext())
+        {
+            curr = curr->getNext();
             count++;
+        }
     }
     return count;
 }
