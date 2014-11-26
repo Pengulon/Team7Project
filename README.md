@@ -6,6 +6,8 @@ FIXED bst remove bug.
 
 FIXED num collisions bug.
 
+FIXED quit bug.
+
 Things that still need to be done:
 
 1. Test cases (test everything, look for bugs)
