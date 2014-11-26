@@ -1,8 +1,9 @@
 Team1Project
 ============
-//update 11/25:
+//update 11/26:
 
 FIXED bst remove bug. 
+FIXED num collisions bug.
 
 Things that still need to be done:
 
@@ -19,5 +20,3 @@ Things that still need to be done:
    c. Structure Charts
    
 4. Documentation
-
-5. Move team report 1 and 2 to new catalyst forum  
