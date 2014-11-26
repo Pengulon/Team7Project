@@ -60,7 +60,6 @@ HashMap<KeyType, ItemType>::~HashMap()
             delete prev;
         }
     }
-    delete [] htable;
 }
 
 //hashFunc - takes the key, sums the ascii value of each character

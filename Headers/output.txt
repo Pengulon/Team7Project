@@ -1,26 +1,26 @@
-2001 Animation 8.6 Spirited Away
-1994 Adventure 7.6 The Jungle Book
-2014 Action 6.2 Dracula Untold
-1937 Animation 7.7 Snow White and the Seven Dwarfs
-1941 Animation 7.3 Dumbo
-1995 Animation 8.3 Toy Story
-2008 Adventure 5.2 Twilight
-1999 Animation 7.2 Tarzan
-2010 Animation 7.7 Despicable Me
-1992 Animation 8 Aladdin
-2008 Comedy 6.1 Bedtime Stories
-2012 Drama 9 Titanic
+2012 Western 8.5 Django Unchained
+1995 Adventure 7.6 Apollo 13
+2012 Adventure 5.6 Breaking Dawn
 2013 Action 7.3 Iron Man 3
-2012 Action 8.2 Avengers
 2012 Action 6.9 Men in Black 3
 1997 Animation 7.1 Anastasia
-1995 Adventure 7.6 Apollo 13
-2009 Animation 8.3 Up
+1941 Animation 7.3 Dumbo
+2012 Drama 9 Titanic
 2003 Adventure 7.1 Holes
+2012 Action 8.2 Avengers
 1989 Animation 7.6 The Little Mermaid
 1994 Animation 8.5 The Lion King
+1994 Adventure 7.6 The Jungle Book
+2014 Action 6.2 Dracula Untold
+2009 Animation 8.3 Up
+1999 Animation 7.2 Tarzan
+1937 Animation 7.7 Snow White and the Seven Dwarfs
+2008 Comedy 6.1 Bedtime Stories
 2007 Animation 8 Ratatouille
 2013 Animation 7.8 Frozen
-2012 Western 8.5 Django Unchained
-2012 Adventure 5.6 Breaking Dawn
+1995 Animation 8.3 Toy Story
+2010 Animation 7.7 Despicable Me
+1992 Animation 8 Aladdin
+2008 Adventure 5.2 Twilight
 2009 Adventure 4.6 New Moon
+2001 Animation 8.6 Spirited Away
