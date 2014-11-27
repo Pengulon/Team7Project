@@ -1,5 +1,6 @@
 // Brandon Chai, 2014
 // Binary Search Tree ADT
+// Team 1 Project
 
 #ifndef BINARYSEARCHTREE_H_INCLUDED
 #define BINARYSEARCHTREE_H_INCLUDED
@@ -63,8 +64,9 @@ bool BinarySearchTree<KeyType, ItemType>::getEntry(const KeyType& key, ItemType&
     if (rootPtr == 0)
         return false;
 
-    BinaryNode<KeyType, ItemType>* pWalk = rootPtr;
+    BinaryNode<KeyType, ItemType>* pWalk = rootPtr;		//BinaryNode pointer set to the root of the tree
 
+	//Loop to search for the wanted key
     while( pWalk )
     {
         if( key < pWalk->getUniqueKey())
@@ -81,29 +83,30 @@ bool BinarySearchTree<KeyType, ItemType>::getEntry(const KeyType& key, ItemType&
     return false;
 }
 
-// add - insert a node at with item field at the correct location
+// add - insert a node with item field at the correct location
 template<class KeyType, class ItemType>
 bool BinarySearchTree<KeyType, ItemType>::add(const ItemType& newData)
 {
-    BinaryNode<KeyType, ItemType>* newNodePtr = new BinaryNode<KeyType, ItemType>(newData);
-    rootPtr = insertInorder(rootPtr, newNodePtr);
-    count++;
+    BinaryNode<KeyType, ItemType>* newNodePtr = new BinaryNode<KeyType, ItemType>(newData);	//New BinaryNode pointer to store insert data
+    rootPtr = insertInorder(rootPtr, newNodePtr);					//Insert into the binary tree
+    count++;				//Update counter
 
     return true;
 }
 
-// add - insert a node at with both item and key fields at the correct location
+// add - insert a node with both item and key fields at the correct location
 template<class KeyType, class ItemType>
 bool BinarySearchTree<KeyType, ItemType>::add(const KeyType& key, const ItemType& item)
 {
-    BinaryNode<KeyType, ItemType>* newNodePtr = new BinaryNode<KeyType, ItemType>(key, item);
-    rootPtr = insertInorder(rootPtr, newNodePtr);
-    count++;
+    BinaryNode<KeyType, ItemType>* newNodePtr = new BinaryNode<KeyType, ItemType>(key, item);	//New BinaryNode pointer to store insert data.
+    rootPtr = insertInorder(rootPtr, newNodePtr);			//Insert into binary tree.
+    count++;						//Update counter
 
     return true;
 }
 
-// insertInorder - returns ptr to a tree with correctly inserted node
+// insertInorder - Function inserts the data inorder format
+// and returns ptr to a tree with correctly inserted node.
 template<class KeyType, class ItemType>
 BinaryNode<KeyType, ItemType>* BinarySearchTree<KeyType, ItemType>::insertInorder(BinaryNode<KeyType, ItemType>* subTreePtr,
                                         BinaryNode<KeyType, ItemType>* newNode)

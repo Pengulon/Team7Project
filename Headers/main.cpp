@@ -1,5 +1,6 @@
 // Brandon Chai, 2014
-// main test driver for movie database program
+// Main test driver for movie database program
+// Team 1 Project
 
 #include "FileIO.h"
 #include "BinarySearchTree.h"
@@ -219,18 +220,19 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 
 int main()
 {
-   Stack<Movie*>* s = new Stack<Movie*>();
-   BinarySearchTree<string, Movie*>* bst = new BinarySearchTree<string, Movie*>();
-   HashMap<string, Movie*>* h = new HashMap<string, Movie*>();
-   FileIO* f = new FileIO();
+   Stack<Movie*>* s = new Stack<Movie*>();							//Stack object
+   BinarySearchTree<string, Movie*>* bst = new BinarySearchTree<string, Movie*>();				//Binart tree object
+   HashMap<string, Movie*>* h = new HashMap<string, Movie*>();								//Hashtable object
+   FileIO* f = new FileIO();										//File in and out object
+		
+   f->readInData(h, bst);										//Function to read in the data from file
+   runDatabase(h, bst, s, f);									//Run the menu options
 
-   f->readInData(h, bst);
-   runDatabase(h, bst, s, f);
+   delete s;				//Delete the stack object
+   delete bst;				//Delete the binary tree object
+   delete h;				//Delete the hashtable object
+   delete f;				//Delete the file in and out object
 
-   delete s;
-   delete bst;
-   delete h;
-   delete f;
-
+   system("pause");
    return 0;
 }

@@ -1,5 +1,6 @@
 // Brandon Chai, 2014
 // Stack template
+//Team 1 Project
 
 #ifndef DYNAMICSTACK_H
 #define DYNAMICSTACK_H
@@ -18,7 +19,7 @@ private:
    };
 
    StackNode *top;     // Pointer to the stack top
-   int count;
+   int count;			//counter for number of items in stack
 
 public:
    //Constructor
@@ -41,7 +42,7 @@ public:
 template <class T>
 Stack<T>::~Stack()
 {
-   StackNode *currNode, *nextNode;
+   StackNode *currNode, *nextNode;				//Stack pointer for the current and next node in the stack
 
    // Position nodePtr at the top of the stack.
    currNode = top;
@@ -49,7 +50,7 @@ Stack<T>::~Stack()
    // Traverse the list deleting each node.
    while (currNode) //while (currNode != NULL)
    {
-      nextNode = currNode->next;
+      nextNode = currNode->next;				
       delete currNode;
       currNode = nextNode;
    }

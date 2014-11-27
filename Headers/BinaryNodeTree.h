@@ -1,5 +1,6 @@
 // Brandon Chai, 2014
 // Binary node tree abstract base class
+// Team 1 Project
 
 #ifndef BINARYNODETREE_H_INCLUDED
 #define BINARYNODETREE_H_INCLUDED
@@ -67,8 +68,8 @@ public:
 
     // common functions for all binary trees
     void remove (KeyType key);
-    void clear() {destroyTree(rootPtr); count = 0;}
-    bool isEmpty() const {return count == 0;}
+    void clear() {destroyTree(rootPtr); count = 0;}				//Function to delete the nodes in the tree
+    bool isEmpty() const {return count == 0;}					//Function to see if tree is empty
 
     void recursivePreorderTraverse(void visit(ItemType&)) const;
     void recursiveInorderTraverse(void visit(ItemType&)) const;
@@ -139,13 +140,13 @@ template<class KeyType, class ItemType>
 BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::
                           copyTree(const BinaryNode<KeyType, ItemType>* treePtr) const
 {
-    BinaryNodeTree<KeyType, ItemType>* newTreePtr = 0;
+    BinaryNodeTree<KeyType, ItemType>* newTreePtr = 0;			//New BinaryNodeTree pointer set equal to null.
     if (treePtr != 0)
     {
-        newTreePtr = new BinaryNode<KeyType, ItemType>(treePtr->getItem(),
+        newTreePtr = new BinaryNode<KeyType, ItemType>(treePtr->getItem(),			//Allocate a new node.
                                               0, 0);
-        newTreePtr->setLeftChildPtr(copyTree(treePtr->getleftChildPtr()));
-        newTreePtr->setRightChildPtr(copyTree(treePtr->getRightChildPtr()));
+        newTreePtr->setLeftChildPtr(copyTree(treePtr->getleftChildPtr()));			//Set the left child
+        newTreePtr->setRightChildPtr(copyTree(treePtr->getRightChildPtr()));		//Set the right child
     }
     return newTreePtr;
 }
@@ -258,10 +259,11 @@ void BinaryNodeTree<KeyType, ItemType>::iterativePreorderTraverse(void visit(Ite
 
     cout << "\nPrinting preorder(iteratively): \n";
 
-    Stack<BinaryNode<KeyType, ItemType>* >* s = new Stack<BinaryNode<KeyType, ItemType>* >();
-    BinaryNode<KeyType, ItemType>* node;
-    s->push(rootPtr);
+    Stack<BinaryNode<KeyType, ItemType>* >* s = new Stack<BinaryNode<KeyType, ItemType>* >();		//New stack object
+    BinaryNode<KeyType, ItemType>* node;								//BinaryNode pointer
+    s->push(rootPtr);													//Push the root to the stack
 
+	//Loop to print the nodes of the tree in iterative preorder.
     while(s->getCount() > 0)
     {
         s->pop(node);
@@ -286,10 +288,11 @@ void BinaryNodeTree<KeyType, ItemType>::iterativeInorderTraverse(void visit(Item
 
     cout << "\nPrinting inorder(iteratively): \n";
 
-    Stack<BinaryNode<KeyType, ItemType>* >* s = new Stack<BinaryNode<KeyType, ItemType>* >();
-    BinaryNode<KeyType, ItemType>* node = rootPtr;
+    Stack<BinaryNode<KeyType, ItemType>* >* s = new Stack<BinaryNode<KeyType, ItemType>* >();		//Stack Object
+    BinaryNode<KeyType, ItemType>* node = rootPtr;									//BinaryNode pointer set equal to the rootPtr
 
-    while(s->getCount() > 0 || node!= 0)
+	//Loop to print the nodes in the tree iteratively inorder.
+    while(s->getCount() > 0 || node != 0)
     {
         if (node != 0)
         {
@@ -319,17 +322,18 @@ void BinaryNodeTree<KeyType, ItemType>::iterativePostorderTraverse(void visit(It
 
     cout << "\nPrinting postorder(iteratively): \n";
 
-    Stack<BinaryNode<KeyType, ItemType>* >* s = new Stack<BinaryNode<KeyType, ItemType>* >();
-    s->push(rootPtr);
+    Stack<BinaryNode<KeyType, ItemType>* >* s = new Stack<BinaryNode<KeyType, ItemType>* >();			//Stack object
+    s->push(rootPtr);											//Push the root to the stack
 
-    BinaryNode<KeyType, ItemType>* popVal;
-    BinaryNode<KeyType, ItemType>* temp;
-    BinaryNode<KeyType, ItemType>* prev = 0;
+    BinaryNode<KeyType, ItemType>* popVal;						//BinaryNode pointer to point to popped value
+    BinaryNode<KeyType, ItemType>* temp;						//Temporary BinaryNode pointer
+    BinaryNode<KeyType, ItemType>* prev = 0;					//BinaryNode pointer to point to previous node
     ItemType theItem;
 
+	//Loop to display the nodes in the tree iteratively postorder.
     while(s->getCount() > 0)
     {
-        temp = s->getTop();
+        temp = s->getTop();						//Set temp equal to the top of the stack
 
         if(prev == 0 || prev->getLeftChildPtr() == temp || prev->getRightChildPtr() == temp)
         {
@@ -369,16 +373,17 @@ void BinaryNodeTree<KeyType, ItemType>::iterativePostorderTraverse(void visit(It
 template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::breadthTraversal()
 {
-    Queue<BinaryNode<KeyType, ItemType>* >* q = new Queue<BinaryNode<KeyType, ItemType>* >();
+    Queue<BinaryNode<KeyType, ItemType>* >* q = new Queue<BinaryNode<KeyType, ItemType>* >();			//Queue object
 
-    BinaryNode<KeyType, ItemType>* node;
+    BinaryNode<KeyType, ItemType>* node;				//BinaryNode pointer
     if(rootPtr == 0)
         cout << "\nTree is empty\n";
 
-    q->enqueue(rootPtr);
+    q->enqueue(rootPtr);						//Enqueue the root
 
     cout << "\nPrinting breadth first: \n";
 
+	//Loop to print the breadth traversal order.
     while(!q->isEmpty())
     {
         q->dequeue(node);
@@ -426,14 +431,15 @@ void BinaryNodeTree<KeyType, ItemType>::tab(int i)
     }
 }
 
-// remove -
+// remove - Function calls the deleteNode function which would return the 
+// new tree with the key deleted.
 template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::remove (KeyType key)
 {
     rootPtr = deleteNode(rootPtr, key);
 }
 
-// minValueNode -
+// minValueNode - Function gets the lowest value node in the tree and returns it.
 template<class KeyType, class ItemType>
 BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::minValueNode(BinaryNode<KeyType, ItemType>* nodePtr)
 {
@@ -446,7 +452,7 @@ BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::minValueNode(B
     return current;
 }
 
-// deleteNode -
+// deleteNode - Function deletes the requested key from the user from the binary tree.
 template<class KeyType, class ItemType>
 BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::deleteNode(BinaryNode<KeyType, ItemType>* rootPtr, KeyType key)
 {

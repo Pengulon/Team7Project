@@ -1,3 +1,6 @@
+// Team 1 Project
+// Header file to read from the file
+
 #ifndef FILE_IO
 #define FILE_IO
 #include <fstream>
@@ -8,26 +11,30 @@
 #define ARRAY_SIZE 128
 using namespace std;
 
-const string fileName = "MovieSourceFile.txt";
+const string fileName = "MovieSourceFile.txt";				//Text file name
 
 class FileIO
 {
 private:
-    Movie* moviePtrArray[ARRAY_SIZE];
+    Movie* moviePtrArray[ARRAY_SIZE];			
 	fstream File;
 	bool available;
 	int count;
 	bool readInArray(Movie* (&moviePtrArray) [ARRAY_SIZE]);
 
 public:
+	//Constructor
 	FileIO();
+
+	//Destructor
 	~FileIO();
+
 	void readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst);
 
 	int getCount() {return count;}
 	bool isAvailable() {return available;}
 };
-
+//Constructor
 FileIO::FileIO()
 {
 	File.open("MovieSourceFile.txt");
@@ -44,6 +51,7 @@ FileIO::FileIO()
 	}
 }
 
+//Destructor
 FileIO::~FileIO()
 {
     for (int i = 0; i < count; i++)
@@ -52,6 +60,7 @@ FileIO::~FileIO()
 		File.close();
 }
 
+//readInData - Read in the data and insert the data into the hashtable and binary tree.
 void FileIO::readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst)
 {
 	readInArray(moviePtrArray);
@@ -62,6 +71,7 @@ void FileIO::readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Mo
 	}
 }
 
+//readInArray - Reads in the data from the file and stores it into a pointer of arrays.
 bool FileIO::readInArray(Movie* (&moviePtrArray) [ARRAY_SIZE])
 {
     if(available)
@@ -70,24 +80,24 @@ bool FileIO::readInArray(Movie* (&moviePtrArray) [ARRAY_SIZE])
 		File.open(fileName.c_str());
 		while(!File.eof())
 		{
-			Movie* temp = new Movie();
+			Movie* temp = new Movie();			//Movie object
 			int year;
 			string genre;
 			double rating;
 			string title;
 
-			File >> year >> genre >> rating;
+			File >> year >> genre >> rating;		//Get the year,genre, and rating from the file
 			File.ignore(128, ' ');
-			getline(File, title);
-			moviePtrArray[index] = new Movie(title, year, genre, rating);
+			getline(File, title);					//Get the title from the file
+			moviePtrArray[index] = new Movie(title, year, genre, rating);		//Set the data into the index of the pointer of arrays
 			index++;
 		}
 
 		//for(int x = 0; x < index; x++)
 		//	cout << moviePtrArray[x]->getTitle() << endl;
 
-		count = index;
-		File.close();
+		count = index;		//Set count equal to the number of lines in the file
+		File.close();		//Close the file
 
 		return true;
 	}

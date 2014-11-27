@@ -1,5 +1,6 @@
 // Brandon Chai, 2014
 // Queue template
+// Team 1 Project
 
 #ifndef DYNAMICQUEUE_H
 #define DYNAMICQUEUE_H
@@ -101,8 +102,8 @@ bool Queue<T>::enqueue(T item)
    else
        rear->next = newNode;
 
-   count++;
-   rear = newNode;
+   count++;					//Update counter
+   rear = newNode;			//Update the rear node
 
    return true;
 }
@@ -130,8 +131,8 @@ bool Queue<T>::dequeue(T &item)
     else
       front = front->next;
 
-    count--;
-    delete pDel;
+    count--;				//Update the counter
+    delete pDel;		
 
    return true;
 }

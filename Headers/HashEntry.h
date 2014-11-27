@@ -1,5 +1,6 @@
 // Brandon Chai, 2014
 // HashEntry for a Hash Map
+// Team 1 Project
 
 #ifndef HASHENTRY_H_INCLUDED
 #define HASHENTRY_H_INCLUDED
@@ -19,15 +20,16 @@ public:
               HashEntry<KeyType, ItemType>* nextEntryPtr) {item = newEntry; key = newKey; nextPtr = nextEntryPtr;}
 
     // Accessors
-    ItemType getItem() const {return item;}
-    KeyType getKey() const {return key;}
-    HashEntry<KeyType, ItemType>* getNext() const {return nextPtr;}
+    ItemType getItem() const {return item;}							//Function to return the item
+    KeyType getKey() const {return key;}							//Function to return the key
+    HashEntry<KeyType, ItemType>* getNext() const {return nextPtr;}		//Function to get the next node
 
     // Mutators
-    void setItem(const ItemType& newEntry) {item = newEntry;}
-    void setKey(const KeyType& newKey) {key = newKey;}
-    void setNext(HashEntry<KeyType, ItemType>* nextEntryPtr) {nextPtr = nextEntryPtr;}
-
+    void setItem(const ItemType& newEntry) {item = newEntry;}		//Function to set the item
+    void setKey(const KeyType& newKey) {key = newKey;}				//Function to set the key
+    void setNext(HashEntry<KeyType, ItemType>* nextEntryPtr) {nextPtr = nextEntryPtr;}		//Function to set the next node in 
+																							//linked list of the index in the hashtable.
+		
     // Overloaded operators
     bool operator==(const HashEntry<KeyType, ItemType>& rightHandItem) const;
     bool operator>(const HashEntry<KeyType, ItemType>& rightHandItem) const;
