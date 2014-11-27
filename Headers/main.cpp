@@ -39,12 +39,13 @@ void showMenu()
 // searchKey - menu option to search by unique key
 void searchKey(HashMap<string, Movie*>* h)
 {
-    Movie* foundItem;
+    Movie* foundItem;				//Movie ptr for the wanted item
     string key;
     cout << "\nEnter key\n";
     getline(cin, key);
     cout << "\nSearching for \"" << key << "\" " << endl;
 
+	//Print key if found, if not print not found.
     if (h->search(key, foundItem))
     {
         cout << "Found\n";
@@ -57,10 +58,11 @@ void searchKey(HashMap<string, Movie*>* h)
         cout << "\"" << key << "\" was not found\n";
 }
 
-// insertItem -
+// insertItem - This function inserts the wanted key into the hash table
+// binary tree.
 void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bst)
 {
-    Movie* foundItem;
+    Movie* foundItem;			//Movie ptr to see if entry already exists
     string title;
     string genre;
     int year;
@@ -69,6 +71,7 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     cout << "Enter movie title:\n";
     getline(cin, title);
 
+	//To see if the entry is already in the table & binary tree.
     if (h->search(title, foundItem))
     {
         cout << "\"" << title << "\" already exists\n";
@@ -78,6 +81,7 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     cout << "Enter movie year:\n";
     while (1)
     {
+		//Check to see if the input value is an int.
         if (cin >> year)
             break;
         else
@@ -91,6 +95,7 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     cout << "Enter movie rating:\n";
     while (1)
     {
+		//Check to see if the user input is a double
         if (cin >> rating)
             break;
         else
@@ -105,23 +110,25 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     cin.ignore();
     getline(cin, genre);
 
-    Movie* newItem = new Movie(title, year, genre, rating);
-    h->insert(title, newItem);
-    bst->add(title, newItem);
+    Movie* newItem = new Movie(title, year, genre, rating);				//Create a new node and store what the user wants to insert
+    h->insert(title, newItem);								//Insert into Hashtable
+    bst->add(title, newItem);								//Insert into binary tree
 
     cout << "\nSuccessfully inserted new item\n";
 }
 
-// removeItem -
+// removeItem - Function removes the item received by the user from the hashtable and binary
+// tree.
 void removeItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bst, Stack<Movie*>* s)
 {
-    Movie* foundItem;
-    Movie* deletedItem;
+    Movie* foundItem;		//Movie ptr to see if the wanted item is in the hashtable
+    Movie* deletedItem;		//Movie ptr to delete the item
     string key;
 
     cout << "Enter key of item to be deleted:\n";
     getline(cin, key);
 
+	//When the wanted item is not found.
     if (!h->search(key, foundItem))
     {
         cout << "\"" << key << "\" does not exist\n";
@@ -130,9 +137,9 @@ void removeItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
 
     else
     {
-        h->remove(key, deletedItem);
-        bst->remove(key);
-        s->push(deletedItem);
+        h->remove(key, deletedItem);					//Removes the user input key from the hash table
+        bst->remove(key);								//Removes the user input key from the binary tree
+        s->push(deletedItem);							//Push the user input key into a stack to store for undo.
         cout << "\nSuccessfully removed " << "\"" << key << "\"\n";
     }
 }
@@ -142,16 +149,20 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 {
     cout << "Movie Database Program\n";
     cout << "--------------------------";
-    showMenu();
+    showMenu();								//Display the menu options
 
     bool isvalid = false;
 	string input;
 
+	//Gets an input from the user and tests to see 
+	//if there is a valid option, and if not keep looping 
+	//until quit or a valid option is picked.
 	while(isvalid == false)
 	{
-	    cout << endl;
+	    cout << "Please enter you choice." << endl;
 		getline(cin,input);
 
+		//Loop to set every letter to an uppercase
 		for(int x = 0; x<input.length();x++)
 			input[x] = toupper(input[x]);
 
@@ -166,12 +177,14 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 			removeItem(h, bst, s);
 		else if(input == "U")
 		{
-			Movie* deletedItem;
+			Movie* deletedItem;						//Movie ptr to the deleteditem
 
+			//Undos the delete requested by the user; if nothing to delete,
+			//then print nothing to undo.
             if (s->pop(deletedItem))
             {
-                h->insert(deletedItem->getTitle(), deletedItem);
-                bst->add(deletedItem->getTitle(), deletedItem);
+                h->insert(deletedItem->getTitle(), deletedItem);				//Adds the item back to the hashtable
+                bst->add(deletedItem->getTitle(), deletedItem);					//Adds the item back to the binary tree
                 cout << "Undo remove successful\n";
             }
             else
