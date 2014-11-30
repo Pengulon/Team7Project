@@ -1,25 +1,15 @@
 Team1Project
 ============
-//update 11/26:
-
-FIXED bst remove bug. 
-
-FIXED num collisions bug.
-
-FIXED quit bug.
+//update 11/30:
 
 Things that still need to be done:
 
-1. Test cases (test everything, look for bugs)
+1. Demonstration Test Plan (demonstrate collision resolution and synonym insertion)
 
-2. Better hash function?
+2. Powerpoint presentation
 
-3. Powerpoint presentation
-
-   a. Data Structure Design
+   a. UML Diagrams
    
-   b. UML Diagrams
+   b. Structure Charts
    
-   c. Structure Charts
-   
-4. Documentation
+   c. A short description of each person’s assignment.

@@ -1,5 +1,6 @@
+// Ethan Wong, 2014
 // Team 1 Project
-// Header file to read from the file
+// Handles File I/O, dynamically allocates array of Movie ptr objects from data in input file
 
 #ifndef FILE_IO
 #define FILE_IO
@@ -16,21 +17,23 @@ const string fileName = "MovieSourceFile.txt";				//Text file name
 class FileIO
 {
 private:
-    Movie* moviePtrArray[ARRAY_SIZE];			
+    Movie* moviePtrArray[ARRAY_SIZE];
 	fstream File;
 	bool available;
 	int count;
+
+	// private functions
 	bool readInArray(Movie* (&moviePtrArray) [ARRAY_SIZE]);
 
 public:
-	//Constructor
+	// Constructor
 	FileIO();
 
-	//Destructor
+	// Destructor
 	~FileIO();
 
+    // public functions
 	void readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst);
-
 	int getCount() {return count;}
 	bool isAvailable() {return available;}
 };

@@ -1,6 +1,6 @@
-// Brandon Chai, 2014
-// Stack template
-//Team 1 Project
+// Anthony Liu, 2014
+// Stack template, used for undo remove function in main
+// Team 1 Project
 
 #ifndef DYNAMICSTACK_H
 #define DYNAMICSTACK_H
@@ -50,7 +50,7 @@ Stack<T>::~Stack()
    // Traverse the list deleting each node.
    while (currNode) //while (currNode != NULL)
    {
-      nextNode = currNode->next;				
+      nextNode = currNode->next;
       delete currNode;
       currNode = nextNode;
    }
