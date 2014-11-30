@@ -21,17 +21,19 @@ private:
 	fstream File;
 	bool available;
 	int count;
+
+	// private functions
 	bool readInArray(Movie* (&moviePtrArray) [ARRAY_SIZE]);
 
 public:
-	//Constructor
+	// Constructor
 	FileIO();
 
-	//Destructor
+	// Destructor
 	~FileIO();
 
+    // public functions
 	void readInData(HashMap<string, Movie*>*& h, BinarySearchTree<string, Movie*>*& bst);
-
 	int getCount() {return count;}
 	bool isAvailable() {return available;}
 };

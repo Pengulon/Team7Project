@@ -22,12 +22,21 @@ protected:
                                         BinaryNode<KeyType, ItemType>* newNode);
     // prints the item in each node greater than key
     void _printItemsGreater(BinaryNode<KeyType, ItemType>* subTreePtr, KeyType& key);
+
+    // removes item with key value
+    BinaryNode<KeyType, ItemType>* deleteNode(BinaryNode<KeyType, ItemType>* rootPtr, KeyType key);
+
+    // returns leftmost node in right subtree
+    BinaryNode<KeyType, ItemType>* minValueNode(BinaryNode<KeyType, ItemType>* nodePtr);
 public:
     // insert a node with item field at the correct location
     bool add(const ItemType& newData);
 
     // insert a node at with both item and key fields at the correct location
     bool add(const KeyType& key, const ItemType& item);
+
+    // remove an item using key
+    bool remove (KeyType key);
 
 	// find a key node
 	bool getEntry(const KeyType& key, ItemType& returnedItem) const;
@@ -69,10 +78,10 @@ bool BinarySearchTree<KeyType, ItemType>::getEntry(const KeyType& key, ItemType&
 	//Loop to search for the wanted key
     while( pWalk )
     {
-        if( key < pWalk->getUniqueKey())
+        if( key < pWalk->getKey())
             pWalk = pWalk->getLeftChildPtr();
         else
-            if( key > pWalk->getUniqueKey())
+            if( key > pWalk->getKey())
                 pWalk = pWalk->getRightChildPtr();
             else
             {
@@ -150,4 +159,82 @@ void BinarySearchTree<KeyType, ItemType>::_printItemsGreater(BinaryNode<KeyType,
         _printItemsGreater(subTreePtr->getRightChildPtr(), key);
 }
 
+// remove - Function calls the deleteNode function which would return the
+// new tree with the key deleted.
+template<class KeyType, class ItemType>
+bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
+{
+    ItemType foundItem;
+    if (getEntry(key, foundItem))
+    {
+       rootPtr = deleteNode(rootPtr, key);
+       return true;
+    }
+
+    else
+        return false;
+
+}
+
+// minValueNode - Function gets the lowest value node in the tree and returns it.
+template<class KeyType, class ItemType>
+BinaryNode<KeyType, ItemType>* BinarySearchTree<KeyType, ItemType>::minValueNode(BinaryNode<KeyType, ItemType>* nodePtr)
+{
+    BinaryNode<KeyType, ItemType>* current = nodePtr;
+
+    /* loop down to find the leftmost leaf */
+    while (current->getLeftChildPtr() != NULL)
+        current = current->getLeftChildPtr();
+
+    return current;
+}
+
+// deleteNode - Function deletes the requested key from the user from the binary tree.
+template<class KeyType, class ItemType>
+BinaryNode<KeyType, ItemType>* BinarySearchTree<KeyType, ItemType>::deleteNode(BinaryNode<KeyType, ItemType>* rootPtr, KeyType key)
+{
+    // base case
+    if (rootPtr == NULL) return rootPtr;
+
+    // If the key to be deleted is smaller than the root's key,
+    // then it lies in left subtree
+    if (key < rootPtr->getKey())
+        rootPtr->setLeftChildPtr(deleteNode(rootPtr->getLeftChildPtr(), key));
+
+    // If the key to be deleted is greater than the root's key,
+    // then it lies in right subtree
+    else if (key > rootPtr->getKey())
+        rootPtr->setRightChildPtr(deleteNode(rootPtr->getRightChildPtr(), key));
+
+    // if key is same as root's key, then This is the node
+    // to be deleted
+    else
+    {
+        // node with only one child or no child
+        if (rootPtr->getLeftChildPtr() == NULL)
+        {
+            BinaryNode<KeyType, ItemType>* temp = rootPtr->getRightChildPtr();
+            delete rootPtr;
+            return temp;
+        }
+        else if (rootPtr->getRightChildPtr() == NULL)
+        {
+            BinaryNode<KeyType, ItemType>* temp = rootPtr->getLeftChildPtr();
+            delete rootPtr;
+            return temp;
+        }
+
+        // node with two children: Get the inorder successor (smallest
+        // in the right subtree)
+        BinaryNode<KeyType, ItemType>* temp = minValueNode(rootPtr->getRightChildPtr());
+
+        // Copy the inorder successor's content to this node
+        rootPtr->setKey(temp->getKey());
+        rootPtr->setItem(temp->getItem());
+
+        // Delete the inorder successor
+        rootPtr->setRightChildPtr(deleteNode(rootPtr->getRightChildPtr(), temp->getKey()));
+    }
+    return rootPtr;
+}
 #endif // BINARYSEARCHTREE_H_INCLUDED

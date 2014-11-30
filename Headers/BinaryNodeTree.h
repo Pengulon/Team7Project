@@ -27,10 +27,6 @@ protected:
     // returns a ptr to a copy of the tree rooted at subTreePtr
     BinaryNode<KeyType, ItemType>* copyTree(const BinaryNode<KeyType, ItemType>* treePtr) const;
 
-    BinaryNode<KeyType, ItemType>* deleteNode(BinaryNode<KeyType, ItemType>* rootPtr, KeyType key);
-
-    BinaryNode<KeyType, ItemType>* minValueNode(BinaryNode<KeyType, ItemType>* nodePtr);
-
     // internal traverse
     void preorder(void visit(ItemType&),
                  BinaryNode<KeyType, ItemType>* treePtr) const;
@@ -66,7 +62,6 @@ public:
     virtual void search(const ItemType& target) = 0;*/
 
     // common functions for all binary trees
-    void remove (KeyType key);
     void clear() {destroyTree(rootPtr); count = 0;}				//Function to delete the nodes in the tree
     bool isEmpty() const {return count == 0;}					//Function to see if tree is empty
 
@@ -401,75 +396,6 @@ void BinaryNodeTree<KeyType, ItemType>::tab(int i)
     }
 }
 
-// remove - Function calls the deleteNode function which would return the
-// new tree with the key deleted.
-template<class KeyType, class ItemType>
-void BinaryNodeTree<KeyType, ItemType>::remove(KeyType key)
-{
-    rootPtr = deleteNode(rootPtr, key);
-}
-
-// minValueNode - Function gets the lowest value node in the tree and returns it.
-template<class KeyType, class ItemType>
-BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::minValueNode(BinaryNode<KeyType, ItemType>* nodePtr)
-{
-    BinaryNode<KeyType, ItemType>* current = nodePtr;
-
-    /* loop down to find the leftmost leaf */
-    while (current->getLeftChildPtr() != NULL)
-        current = current->getLeftChildPtr();
-
-    return current;
-}
-
-// deleteNode - Function deletes the requested key from the user from the binary tree.
-template<class KeyType, class ItemType>
-BinaryNode<KeyType, ItemType>* BinaryNodeTree<KeyType, ItemType>::deleteNode(BinaryNode<KeyType, ItemType>* rootPtr, KeyType key)
-{
-    // base case
-    if (rootPtr == NULL) return rootPtr;
-
-    // If the key to be deleted is smaller than the root's key,
-    // then it lies in left subtree
-    if (key < rootPtr->getKey())
-        rootPtr->setLeftChildPtr(deleteNode(rootPtr->getLeftChildPtr(), key));
-
-    // If the key to be deleted is greater than the root's key,
-    // then it lies in right subtree
-    else if (key > rootPtr->getKey())
-        rootPtr->setRightChildPtr(deleteNode(rootPtr->getRightChildPtr(), key));
-
-    // if key is same as root's key, then This is the node
-    // to be deleted
-    else
-    {
-        // node with only one child or no child
-        if (rootPtr->getLeftChildPtr() == NULL)
-        {
-            BinaryNode<KeyType, ItemType>* temp = rootPtr->getRightChildPtr();
-            delete rootPtr;
-            return temp;
-        }
-        else if (rootPtr->getRightChildPtr() == NULL)
-        {
-            BinaryNode<KeyType, ItemType>* temp = rootPtr->getLeftChildPtr();
-            delete rootPtr;
-            return temp;
-        }
-
-        // node with two children: Get the inorder successor (smallest
-        // in the right subtree)
-        BinaryNode<KeyType, ItemType>* temp = minValueNode(rootPtr->getRightChildPtr());
-
-        // Copy the inorder successor's content to this node
-        rootPtr->setKey(temp->getKey());
-        rootPtr->setItem(temp->getItem());
-
-        // Delete the inorder successor
-        rootPtr->setRightChildPtr(deleteNode(rootPtr->getRightChildPtr(), temp->getKey()));
-    }
-    return rootPtr;
-}
 #endif // BINARYNODETREE_H_INCLUDED
 
 
