@@ -1,5 +1,5 @@
-// Brandon Chai, 2014
-// Header for Movie class
+// Anthony Liu, 2014
+// Header for Movie class object
 // Team 1 Project
 
 #ifndef MOVIE_H_INCLUDED

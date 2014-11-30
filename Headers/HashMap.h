@@ -1,5 +1,5 @@
 // Brandon Chai, 2014
-// Hash Map ADT
+// Hash Map ADT, used to search for item and write data to output file
 // Team 1 Project
 
 #ifndef HASHMAP_H_INCLUDED
@@ -44,7 +44,7 @@ HashMap<KeyType, ItemType>::HashMap()
 {
 	//Initialize all the elements in the hashtable
     for (int i = 0; i < TABLE_SIZE; i++)
-        htable[i] = new HashEntry<KeyType, ItemType>();	
+        htable[i] = new HashEntry<KeyType, ItemType>();
 }
 
 
@@ -56,7 +56,7 @@ HashMap<KeyType, ItemType>::~HashMap()
 	//linked lists that handled collisions.
     for (int i = 0; i < TABLE_SIZE; i++)
     {
-        HashEntry<KeyType, ItemType>* entry = htable[i];	
+        HashEntry<KeyType, ItemType>* entry = htable[i];
         while (entry != NULL)
         {
             HashEntry<KeyType, ItemType>* prev = entry;
@@ -96,8 +96,8 @@ void HashMap<KeyType, ItemType>::insert(KeyType key, ItemType item)
         HashEntry<KeyType, ItemType>* newEntry = new HashEntry<KeyType, ItemType>(item, key, 0);		//New HashEntry ptr to be inserted
         //Find the element stored in the linkedlist
 		while (curr->getNext() != NULL)
-            curr = curr->getNext();					
-        curr->setNext(newEntry);					//Set the new HashEntry to the end of the linkedlist 
+            curr = curr->getNext();
+        curr->setNext(newEntry);					//Set the new HashEntry to the end of the linkedlist
     }
 }
 
@@ -108,12 +108,12 @@ void HashMap<KeyType, ItemType>::printTable()
 {
     cout << "\nPrinting hash table:\n";
     HashEntry<KeyType, ItemType>* curr;				//HashEntry pointer
-    
+
 	//This loop displays each value in the hashtable and prints empty if nothing is contained.
 	//It also prints the linkedlist of the index with an indented space.
 	for (int i = 0; i < TABLE_SIZE; i++)
     {
-        curr = htable[i];							
+        curr = htable[i];
         cout << "Index " << i << ":";
         if (curr->getItem() == NULL)
             cout << "//empty\n";
@@ -134,8 +134,8 @@ template <class KeyType, class ItemType>
 void HashMap<KeyType, ItemType>::displayList()
 {
     cout << "\nDisplaying List:\n";
-    HashEntry<KeyType, ItemType>* curr;			//HashEntry pointer 
-	
+    HashEntry<KeyType, ItemType>* curr;			//HashEntry pointer
+
 	//Loop to display each value in the hashtable including linkedlists with no indents.
     for (int i = 0; i < TABLE_SIZE; i++)
     {
@@ -169,7 +169,7 @@ bool HashMap<KeyType, ItemType>::search(KeyType key, ItemType &foundItem)
     bool found = false;
 
     HashEntry<KeyType, ItemType>* curr = htable[index];			//Set the HashEntry pointer to the index of the hashtable
-    
+
 	//Loop to see if the key is in the hashtable and the linkedlist at the index if any.
 	while(curr != NULL)
     {
@@ -192,7 +192,7 @@ int HashMap<KeyType, ItemType>::getNumCollisions()
     HashEntry<KeyType, ItemType>* curr;					//HashEntry pointer
     for (int i = 0; i < TABLE_SIZE; i++)
     {
-        curr = htable[i];							
+        curr = htable[i];
 		//Loop to check if there is a linkedlist at the index and if there is, increment
 		//count for every item in the linkedlist.
         while (curr->getNext())
@@ -251,14 +251,14 @@ int HashMap<KeyType, ItemType>::getLongestList()
         int length = 0;
         curr = htable[i];
         curr = curr->getNext();
-		
+
 		//Increments the int length for every node in the linkedlist at the index.
         while(curr != NULL)
         {
             length++;
             curr = curr->getNext();
         }
-		
+
 		//Sets longest to the longest linked list in the hashtable.
         if (length > longest)
             longest = length;
@@ -276,7 +276,7 @@ double HashMap<KeyType, ItemType>::getAverageListSize()
     {
         int sum = 0;
         HashEntry<KeyType, ItemType>* curr;			//HashEntry pointer
-        
+
 		//This loop adds up all the nodes in the linked list for each index.
 		for (int i = 0; i < TABLE_SIZE; i++)
         {
@@ -288,7 +288,7 @@ double HashMap<KeyType, ItemType>::getAverageListSize()
                 curr = curr->getNext();
             }
         }
-        return (double)sum/getNumCollisions();	
+        return (double)sum/getNumCollisions();
     }
 }
 
@@ -300,7 +300,7 @@ void HashMap<KeyType, ItemType>::remove(KeyType key, ItemType &deletedItem)
 
     HashEntry<KeyType, ItemType>* ptrToDelete;				//HashEntry pointer
     HashEntry<KeyType, ItemType>* p1;						//HashEntry pointer
-    HashEntry<KeyType, ItemType>* p2;						//HashEntry pointer 
+    HashEntry<KeyType, ItemType>* p2;						//HashEntry pointer
 
     // case 0 - bucket is empty
     if (htable[index]->getItem() == NULL && htable[index]->getKey() == "")

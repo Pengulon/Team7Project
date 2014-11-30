@@ -1,5 +1,5 @@
 // Brandon Chai, 2014
-// HashEntry for a Hash Map
+// HashEntry for Hash Map ADT
 // Team 1 Project
 
 #ifndef HASHENTRY_H_INCLUDED
@@ -27,9 +27,9 @@ public:
     // Mutators
     void setItem(const ItemType& newEntry) {item = newEntry;}		//Function to set the item
     void setKey(const KeyType& newKey) {key = newKey;}				//Function to set the key
-    void setNext(HashEntry<KeyType, ItemType>* nextEntryPtr) {nextPtr = nextEntryPtr;}		//Function to set the next node in 
+    void setNext(HashEntry<KeyType, ItemType>* nextEntryPtr) {nextPtr = nextEntryPtr;}		//Function to set the next node in
 																							//linked list of the index in the hashtable.
-		
+
     // Overloaded operators
     bool operator==(const HashEntry<KeyType, ItemType>& rightHandItem) const;
     bool operator>(const HashEntry<KeyType, ItemType>& rightHandItem) const;

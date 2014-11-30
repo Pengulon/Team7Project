@@ -1,5 +1,7 @@
-// Brandon Chai, 2014
-// Main test driver for movie database program
+// Alex Hua, 2014
+// Main test driver for movie database program, creates
+// BST, Hashmap, Stack and FileIO objects
+// and allows user to select from menu options.
 // Team 1 Project
 
 #include "FileIO.h"
@@ -155,8 +157,8 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
     bool isvalid = false;
 	string input;
 
-	//Gets an input from the user and tests to see 
-	//if there is a valid option, and if not keep looping 
+	//Gets an input from the user and tests to see
+	//if there is a valid option, and if not keep looping
 	//until quit or a valid option is picked.
 	while(isvalid == false)
 	{
@@ -224,7 +226,7 @@ int main()
    BinarySearchTree<string, Movie*>* bst = new BinarySearchTree<string, Movie*>();				//Binart tree object
    HashMap<string, Movie*>* h = new HashMap<string, Movie*>();								//Hashtable object
    FileIO* f = new FileIO();										//File in and out object
-		
+
    f->readInData(h, bst);										//Function to read in the data from file
    runDatabase(h, bst, s, f);									//Run the menu options
 

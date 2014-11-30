@@ -1,5 +1,5 @@
 // Brandon Chai, 2014
-// Binary Search Tree ADT
+// Binary Search Tree ADT, used to print sorted list
 // Team 1 Project
 
 #ifndef BINARYSEARCHTREE_H_INCLUDED
