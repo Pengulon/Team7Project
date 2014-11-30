@@ -83,8 +83,9 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     while (1)
     {
 		//Check to see if the input value is an int.
-        if (cin >> year)
-            break;
+        cin >> year;
+		if(year > 0)
+			break;
         else
         {
             cout << "Invalid input. Please enter a integer value.\n";
@@ -97,7 +98,8 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     while (1)
     {
 		//Check to see if the user input is a double
-        if (cin >> rating)
+        cin >> rating;
+		if(rating > 0 && rating < 10)
             break;
         else
         {
