@@ -6,7 +6,7 @@ Things that still need to be done:
 
 1. Demonstration Test Plan (demonstrate collision resolution and synonym insertion)
 
-3. Powerpoint presentation
+2. Powerpoint presentation
 
    a. UML Diagrams
    
