@@ -6,7 +6,6 @@
 #define BINARYNODETREE_H_INCLUDED
 
 #include "BinaryNode.h"
-#include "Queue.h"
 #include "Stack.h"
 #include <algorithm>
 #include <iostream>
@@ -79,7 +78,6 @@ public:
     void iterativeInorderTraverse(void visit(ItemType&));
     void iterativePostorderTraverse(void visit(ItemType&));
 
-    void breadthTraversal();
     void printIndented();
     void printTreeLevelRec(BinaryNode<KeyType, ItemType>* node, int desired);
     void tab(int i);
@@ -369,34 +367,6 @@ void BinaryNodeTree<KeyType, ItemType>::iterativePostorderTraverse(void visit(It
     }
 }
 
-// breadthTraversal - prints the item at each node by level
-template<class KeyType, class ItemType>
-void BinaryNodeTree<KeyType, ItemType>::breadthTraversal()
-{
-    Queue<BinaryNode<KeyType, ItemType>* >* q = new Queue<BinaryNode<KeyType, ItemType>* >();			//Queue object
-
-    BinaryNode<KeyType, ItemType>* node;				//BinaryNode pointer
-    if(rootPtr == 0)
-        cout << "\nTree is empty\n";
-
-    q->enqueue(rootPtr);						//Enqueue the root
-
-    cout << "\nPrinting breadth first: \n";
-
-	//Loop to print the breadth traversal order.
-    while(!q->isEmpty())
-    {
-        q->dequeue(node);
-        cout << (node->getItem())->getTitle() << endl;
-        if (node->getLeftChildPtr() != 0)
-            q->enqueue(node->getLeftChildPtr());
-        if (node->getRightChildPtr() != 0)
-            q->enqueue(node->getRightChildPtr());
-    }
-
-    cout << endl;
-}
-
 // printIndented - calls internal function 'printTreeLevelRec' to print an indented list
 template<class KeyType, class ItemType>
 void BinaryNodeTree<KeyType, ItemType>::printIndented()
@@ -431,10 +401,10 @@ void BinaryNodeTree<KeyType, ItemType>::tab(int i)
     }
 }
 
-// remove - Function calls the deleteNode function which would return the 
+// remove - Function calls the deleteNode function which would return the
 // new tree with the key deleted.
 template<class KeyType, class ItemType>
-void BinaryNodeTree<KeyType, ItemType>::remove (KeyType key)
+void BinaryNodeTree<KeyType, ItemType>::remove(KeyType key)
 {
     rootPtr = deleteNode(rootPtr, key);
 }
