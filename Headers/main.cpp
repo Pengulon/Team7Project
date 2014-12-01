@@ -101,7 +101,7 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
     {
 		cin >> rating;
 		//Check to see if the user input is a double and between 0 and 10.
-		if(rating > 0 && rating < 10)
+		if(rating >= 0 && rating <= 10)
             break;
         else
         {
