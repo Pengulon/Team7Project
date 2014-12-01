@@ -90,7 +90,7 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
 			break;
         else
         {
-            cout << "Invalid input. Please enter a integer value.\n";
+            cout << "Invalid input. Please enter a positive integer value.\n";
             cin.clear();
             while(cin.get() != '\n');
         }
@@ -105,7 +105,7 @@ void insertItem(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* bs
             break;
         else
         {
-            cout << "Invalid input. Please enter a numerical value.\n";
+            cout << "Invalid input. Please enter a numerical value between 0 and 10.\n";
             cin.clear();
             while(cin.get() != '\n');
         }
