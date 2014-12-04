@@ -1,15 +1,14 @@
 Team1Project
 ============
-//update 11/30:
+//update 12/1:
 
 Things that still need to be done:
 
-1. Demonstration Test Plan (demonstrate collision resolution and synonym insertion)
+1. Peer Evaluation
 
-2. Powerpoint presentation
+2. Upload team project ('program doc' folder + 'presentation' folder)
 
-   a. UML Diagrams
-   
-   b. Structure Charts
-   
-   c. A short description of each person’s assignment.
+- Ethan
+I tested the code and its working fine. But one node is either empty or reading blank data. Also the range for rating doesnt include 10 or 0. and the year allow me to put in year 0.
+- Brandon
+The empty node was because there was a single blank space after Titanic in the movie source file. I fixed the range for rating and year.
