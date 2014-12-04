@@ -183,15 +183,27 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 		else if(input == "U")
 		{
 			Movie* deletedItem;						//Movie ptr to the deleteditem
-
+			bool exist = true;
 			//Undos the delete requested by the user; if nothing to delete,
 			//then print nothing to undo.
             if (s->pop(deletedItem))
             {
-                h->insert(deletedItem->getTitle(), deletedItem);				//Adds the item back to the hashtable
-                bst->add(deletedItem->getTitle(), deletedItem);					//Adds the item back to the binary tree
-                cout << "Undo remove successful\n";
-            }
+				exist = h->search(deletedItem->getTitle(), deletedItem);			//Returns false if item is not in the hashtable
+				if(exist == false )
+				{
+					h->insert(deletedItem->getTitle(), deletedItem);				//Adds the item back to the hashtable
+					bst->add(deletedItem->getTitle(), deletedItem);					//Adds the item back to the binary tree
+					cout << "Undo remove successful\n";
+				}
+				else
+				{
+					cout << "The item you want to undo, " << deletedItem->getTitle() << ", already exists." << endl;
+					deletedItem->setTitle("");							//Set the existing item fields equal to nothing
+					deletedItem->setRating(0);
+					deletedItem->setGenre("");
+					deletedItem->setYear(0);
+				}
+            }	
             else
                 cout << "Nothing to undo\n";
 		}
