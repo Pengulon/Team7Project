@@ -198,12 +198,8 @@ void runDatabase(HashMap<string, Movie*>* h, BinarySearchTree<string, Movie*>* b
 				else
 				{
 					cout << "The item you want to undo, " << deletedItem->getTitle() << ", already exists." << endl;
-					deletedItem->setTitle("");							//Set the existing item fields equal to nothing
-					deletedItem->setRating(0);
-					deletedItem->setGenre("");
-					deletedItem->setYear(0);
 				}
-            }	
+            }
             else
                 cout << "Nothing to undo\n";
 		}
